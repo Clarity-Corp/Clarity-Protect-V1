@@ -322,6 +322,8 @@ module.exports = {
                         "```" + "\n" + "```\n" + `Nombre de commandes: ${client.commands.size}` + "```",
                     inline: true,
                 })
+                .setImage(client.user.displayAvatarURL({dynamic: true}))
+                .setThumbnail(client.thumbnail.iconURL)
                 .setColor(client.color)
                 .setFooter({
                     text: client.footer.text,
@@ -339,7 +341,6 @@ module.exports = {
                 .setPlaceholder('Choisissez une catégorie')
                 .addOptions(selectMenuOptions);
 
-            // Create the "Accueil" button
             const homeButton = new ButtonBuilder()
                 .setCustomId('home')
                 .setEmoji('1277988783874375751')
