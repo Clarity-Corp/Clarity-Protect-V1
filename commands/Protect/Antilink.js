@@ -3,6 +3,9 @@ const {
     ActionRowBuilder,
     EmbedBuilder,
     ButtonBuilder,
+    UserSelectMenuBuilder,
+    ChannelSelectMenuBuilder,
+    RoleSelectMenuBuilder
 } = require('discord.js');
 const { PermissionsBitField } = require('discord.js');
 const Antilink = require('../../Structure/Db/Models/Protect/antilink');
@@ -236,7 +239,7 @@ async function embed(client, message, msg) {
         } else if (i.customId === "allow_settings" + message.id) {
             const settingsEmbed = new EmbedBuilder()
                 .setTitle(`${message.guild.name} : AntiLink`)
-                .setDescription(`\`\`\`État: ${antilinkData.bypass_status ? "✅" : "❌"}\nBot_Owner Autorisé: ${antilinkData.use_botOwner ? "✅" : "❌"}\nUtilisateurs Whitelist Autorisé : ${antilinkData.use_botWl ? "✅" : "❌"}\nUtilisateurs Indépendants : ${antilinkData.wl_users > 0 ? antilinkData.wl_users.size : "❌"}\nRole Autorisé: ${antilinkData.wl_role > 0 ? antilinkData.wl_role.size : "❌"}\nChannel Autorisé: ${antilinkData.wl_channel > 0 ? antilinkData.wl_channel.size : "❌"}\nLien Autorisé: ${antilinkData.wl_link > 0 ? antilinkData.wl_link.size : "❌"}\`\`\``)
+                .setDescription(`\`\`\`État: ${antilinkData.bypass_status ? "✅" : "❌"}\nBot_Owner Autorisé: ${antilinkData.use_botOwner ? "✅" : "❌"}\nUtilisateurs Whitelist Autorisé : ${antilinkData.use_botWl ? "✅" : "❌"}\nUtilisateurs Indépendants : ${antilinkData.wl_users > 0 ? "✅" : "❌"}\nRole Autorisé: ${antilinkData.wl_role > 0 ? "✅" : "❌"}\nChannel Autorisé: ${antilinkData.wl_channel > 0 ? "✅" : "❌"}\nLien Autorisé: ${antilinkData.wl_link > 0 ? "✅" : "❌"}\`\`\``)
                 .setFooter({
                     text: client.footer.text,
                     iconURL: client.footer.iconURL
@@ -250,15 +253,64 @@ async function embed(client, message, msg) {
                     components: [{
                         type: 3,
                         customId: "status_settings" + message.id,
-                        options: [{
-                            label: antilinkData.use_botOwner ? "Ne pas autoriser les owners du bot a bypass le module" : "Autoriser les owners du bot a bypass le module ",
-                            emoji: antilinkData.use_botOwner ? "✅" : "❌",
-                            value: "useBotOwner"
-                        }, {
-                            label: antilinkData.use_botWl ? "Ne pas autoriser les utilisateurs wl a bypass le module" : "Autoriser les utilisateurs wl a bypass le module ",
-                            emoji: antilinkData.use_botWl ? "✅" : "❌",
-                            value: "useBotWl"
-                        }]
+                        options: [
+                            {
+                                label: antilinkData.use_botOwner ? "Ne pas autoriser les owners du bot à bypass le module" : "Autoriser les owners du bot à bypass le module",
+                                emoji: antilinkData.use_botOwner ? "✅" : "❌",
+                                value: "useBotOwner"
+                            },
+                            {
+                                label: antilinkData.use_botWl ? "Ne pas autoriser les utilisateurs WL à bypass le module" : "Autoriser les utilisateurs WL à bypass le module",
+                                emoji: antilinkData.use_botWl ? "✅" : "❌",
+                                value: "useBotWl"
+                            },
+                            {
+                                label: "Utilisateur indépendant",
+                                emoji: antilinkData.wl_users && antilinkData.wl_users.split(',').length > 0 ? "✅" : "❌",
+                                value: "wlUser"
+                            },
+                            {
+                                label: "Rôle Autorisé",
+                                emoji: antilinkData.wl_role && antilinkData.wl_role.split(',').length > 0 ? "✅" : "❌",
+                                value: "wlRole"
+                            },
+                            {
+                                label: "Channel Autorisé",
+                                emoji: antilinkData.wl_channel && antilinkData.wl_channel.split(',').length > 0 ? "✅" : "❌",
+                                value: "wlChannel"
+                            },
+                            {
+                                label: "Lien Autorisé",
+                                emoji: antilinkData.wl_link && antilinkData.wl_link.split(',').length > 0 ? "✅" : "❌",
+                                value: "wlLink"
+                            }
+                        ]
+                    }]
+                }, {
+                    type: 1,
+                    components: [{
+                        type: 2,
+                        customId: "back" + message.id,
+                        emoji: "1277988783874375751",
+                        style: 2
+                    },{
+                        type: 2,
+                        customId: "allowed_users" + message.id,
+                        emoji: "1278983711794397244",
+                        disabled: antilinkData.wl_users < 0,
+                        style: 2
+                    }, {
+                        type: 2,
+                        customId: "allowed_roles" + message.id,
+                        emoji: "1279002291050905662",
+                        disabled: antilinkData.wl_role < 0,
+                        style: 2
+                    }, {
+                        type: 2,
+                        customId: "allowed_channels" + message.id,
+                        emoji: "1277988776760705037",
+                        disabled: antilinkData.wl_channel < 0,
+                        style: 2
                     }]
                 }]
             });
@@ -272,7 +324,7 @@ async function embed(client, message, msg) {
             const setembUp = async () => {
                 const settingsEmbed = new EmbedBuilder()
                     .setTitle(`${message.guild.name} : AntiLink`)
-                    .setDescription(`\`\`\`État: ${antilinkData.bypass_status ? "✅" : "❌"}\nBot_Owner Autorisé: ${antilinkData.use_botOwner ? "✅" : "❌"}\nUtilisateurs Whitelist Autorisé : ${antilinkData.use_botWl ? "✅" : "❌"}\nUtilisateurs Indépendants : ${antilinkData.wl_users > 0 ? antilinkData.wl_users.size : "❌"}\nRole Autorisé: ${antilinkData.wl_role > 0 ? antilinkData.wl_role.size : "❌"}\nChannel Autorisé: ${antilinkData.wl_channel > 0 ? antilinkData.wl_channel.size : "❌"}\nLien Autorisé: ${antilinkData.wl_link > 0 ? antilinkData.wl_link.size : "❌"}\`\`\``)
+                    .setDescription(`\`\`\`État: ${antilinkData.bypass_status ? "✅" : "❌"}\nBot_Owner Autorisé: ${antilinkData.use_botOwner ? "✅" : "❌"}\nUtilisateurs Whitelist Autorisé : ${antilinkData.use_botWl ? "✅" : "❌"}\nUtilisateurs Indépendants : ${antilinkData.wl_users > 0 ? "✅" : "❌"}\nRole Autorisé: ${antilinkData.wl_role > 0 ? "✅" : "❌"}\nChannel Autorisé: ${antilinkData.wl_channel > 0 ? "✅" : "❌"}\nLien Autorisé: ${antilinkData.wl_link > 0 ? "✅" : "❌"}\`\`\``)
                     .setFooter({
                         text: client.footer.text,
                         iconURL: client.footer.iconURL
@@ -286,15 +338,64 @@ async function embed(client, message, msg) {
                         components: [{
                             type: 3,
                             customId: "status_settings" + message.id,
-                            options: [{
-                                label: antilinkData.use_botOwner ? "Ne pas autoriser les owners du bot a bypass le module" : "Autoriser les owners du bot a bypass le module ",
-                                emoji: antilinkData.use_botOwner ? "✅" : "❌",
-                                value: "useBotOwner"
-                            }, {
-                                label: antilinkData.use_botWl ? "Ne pas autoriser les utilisateurs wl a bypass le module" : "Autoriser les utilisateurs wl a bypass le module ",
-                                emoji: antilinkData.use_botWl ? "✅" : "❌",
-                                value: "useBotWl"
-                            }]
+                            options: [
+                                {
+                                    label: antilinkData.use_botOwner ? "Ne pas autoriser les owners du bot à bypass le module" : "Autoriser les owners du bot à bypass le module",
+                                    emoji: antilinkData.use_botOwner ? "✅" : "❌",
+                                    value: "useBotOwner"
+                                },
+                                {
+                                    label: antilinkData.use_botWl ? "Ne pas autoriser les utilisateurs WL à bypass le module" : "Autoriser les utilisateurs WL à bypass le module",
+                                    emoji: antilinkData.use_botWl ? "✅" : "❌",
+                                    value: "useBotWl"
+                                },
+                                {
+                                    label: "Utilisateur indépendant",
+                                    emoji: antilinkData.wl_users && antilinkData.wl_users.split(',').length > 0 ? "✅" : "❌",
+                                    value: "wlUser"
+                                },
+                                {
+                                    label: "Rôle Autorisé",
+                                    emoji: antilinkData.wl_role && antilinkData.wl_role.split(',').length > 0 ? "✅" : "❌",
+                                    value: "wlRole"
+                                },
+                                {
+                                    label: "Channel Autorisé",
+                                    emoji: antilinkData.wl_channel && antilinkData.wl_channel.split(',').length > 0 ? "✅" : "❌",
+                                    value: "wlChannel"
+                                },
+                                {
+                                    label: "Lien Autorisé",
+                                    emoji: antilinkData.wl_link && antilinkData.wl_link.split(',').length > 0 ? "✅" : "❌",
+                                    value: "wlLink"
+                                }
+                            ]
+                        }]
+                    }, {
+                        type: 1,
+                        components: [{
+                            type: 2,
+                            customId: "back" + message.id,
+                            emoji: "1277988783874375751",
+                            style: 2
+                        },{
+                            type: 2,
+                            customId: "allowed_users" + message.id,
+                            emoji: "1278983711794397244",
+                            disabled: antilinkData.wl_users < 0,
+                            style: 2
+                        }, {
+                            type: 2,
+                            customId: "allowed_roles" + message.id,
+                            emoji: "1279002291050905662",
+                            disabled: antilinkData.wl_role < 0,
+                            style: 2
+                        }, {
+                            type: 2,
+                            customId: "allowed_channels" + message.id,
+                            emoji: "1277988776760705037",
+                            disabled: antilinkData.wl_channel < 0,
+                            style: 2
                         }]
                     }]
                 });
@@ -310,7 +411,7 @@ async function embed(client, message, msg) {
                 });
             await setembUp()
             }
-            if (i.values[0] === "useBotWl") {
+            else if (i.values[0] === "useBotWl") {
                 antilinkData.use_botWl = !antilinkData.use_botWl;
                 await Antilink.update({
                     use_botWl: antilinkData.use_botWl
@@ -320,7 +421,511 @@ async function embed(client, message, msg) {
                     }
                 });
                 await setembUp();
+            } else if (i.values[0] === "wlUser") {
+                let wlComponents = new ActionRowBuilder().addComponents(
+                    new UserSelectMenuBuilder()
+                        .setCustomId("wlUser" + message.id)
+                        .setMinValues(1)
+                        .setMaxValues(5)
+                        .setPlaceholder("Selectionne un utilisateur")
+                )
+
+                await msg.edit({
+                    embeds: [],
+                    components: [wlComponents]
+                })
+            } else if (i.values[0] === "wlChannel") {
+                let wlComponents = new ActionRowBuilder().addComponents(
+                    new ChannelSelectMenuBuilder()
+                        .setCustomId("wlChannel" + message.id)
+                        .setMinValues(1)
+                        .setMaxValues(5)
+                        .setPlaceholder("Selectionne un channel")
+                        .addChannelTypes(0)
+                )
+                await msg.edit({
+                    embeds: [],
+                    components: [wlComponents]
+                })
+            } else if (i.values[0] === "wlRole") {
+                let wlComponents = new ActionRowBuilder().addComponents(
+                    new RoleSelectMenuBuilder()
+                        .setCustomId("wlRole" + message.id)
+                        .setMinValues(1)
+                        .setMaxValues(5)
+                        .setPlaceholder("Selectionne un role")
+                )
+                await msg.edit({
+                    embeds: [],
+                    components: [wlComponents]
+                })
+            } else if (i.values[0] === "wlLink") {
+                let wl_link = await antilinkData.wl_link ? antilinkData.wl_link.split(',') : [];
+                let LinkUpEmb = async () => {
+                    let embed = new EmbedBuilder()
+                        .setTitle(`${message.guild.name} : AntiLink`)
+                        .setDescription("```" + `Lien Autorisé:\n${wl_link.length > 0 ? wl_link.join("\n") : "❌"}` + "```")
+                        .setFooter({
+                            text: client.footer.text,
+                            iconURL: client.footer.iconURL
+                        })
+                        .setTimestamp()
+                        .setColor(client.color);
+                    await msg.edit({
+                        embeds: [embed],
+                        components: [{
+                            type: 1,
+                            components: [{
+                                type: 2,
+                                customId: "backk" + message.id,
+                                emoji: "1277988783874375751",
+                                style: 2
+                            }, {
+                                type: 2,
+                                customId: "addLink" + message.id,
+                                emoji: "1279064309141602324",
+                                style: 2
+                            }, {
+                                type: 2,
+                                customId: "resetLink" + message.id,
+                                emoji: "1068874860169793588",
+                                style: 2
+                            }, {
+                                type: 2,
+                                customId: "removeLink" + message.id,
+                                emoji: "827275974390579250",
+                                style: 2
+                            }]
+                        }]
+                    })
+                }
+                await LinkUpEmb()
             }
         }
+        else if (i.customId === "wlUser" + message.id) {
+            let wlUsers = antilinkData.wl_users ? antilinkData.wl_users.split(',') : [];
+            const userId = i.values[0];
+            if (wlUsers.includes(userId)) {
+                wlUsers = wlUsers.filter(id => id !== userId);
+            } else {
+                wlUsers.push(userId);
+            }
+            await Antilink.update({
+                wl_users: wlUsers.join(',')
+            }, {
+                where: {
+                    guildId: message.guild.id
+                }
+            });
+            antilinkData.wl_users = wlUsers.join(',');
+            const settingsEmbed = new EmbedBuilder()
+                .setTitle(`${message.guild.name} : AntiLink`)
+                .setDescription(`\`\`\`État: ${antilinkData.bypass_status ? "✅" : "❌"}\nBot_Owner Autorisé: ${antilinkData.use_botOwner ? "✅" : "❌"}\nUtilisateurs Whitelist Autorisé : ${antilinkData.use_botWl ? "✅" : "❌"}\nUtilisateurs Indépendants : ${wlUsers.length > 0 ? "✅" : "❌"}\nRole Autorisé: ${antilinkData.wl_role > 0 ? "✅" : "❌"}\nChannel Autorisé: ${antilinkData.wl_channel > 0 ? "✅" : "❌"}\nLien Autorisé: ${antilinkData.wl_link > 0 ? "✅" : "❌"}\`\`\``)
+                .setFooter({
+                    text: client.footer.text,
+                    iconURL: client.footer.iconURL
+                })
+                .setTimestamp()
+                .setColor(client.color);
+            await msg.edit({
+                embeds: [settingsEmbed],
+                components: [{
+                    type: 1,
+                    components: [{
+                        type: 3,
+                        customId: "status_settings" + message.id,
+                        options: [
+                            {
+                                label: antilinkData.use_botOwner ? "Ne pas autoriser les owners du bot à bypass le module" : "Autoriser les owners du bot à bypass le module",
+                                emoji: antilinkData.use_botOwner ? "✅" : "❌",
+                                value: "useBotOwner"
+                            },
+                            {
+                                label: antilinkData.use_botWl ? "Ne pas autoriser les utilisateurs WL à bypass le module" : "Autoriser les utilisateurs WL à bypass le module",
+                                emoji: antilinkData.use_botWl ? "✅" : "❌",
+                                value: "useBotWl"
+                            },
+                            {
+                                label: "Utilisateur indépendant",
+                                emoji: antilinkData.wl_users && antilinkData.wl_users.split(',').length > 0 ? "✅" : "❌",
+                                value: "wlUser"
+                            },
+                            {
+                                label: "Rôle Autorisé",
+                                emoji: antilinkData.wl_role && antilinkData.wl_role.split(',').length > 0 ? "✅" : "❌",
+                                value: "wlRole"
+                            },
+                            {
+                                label: "Channel Autorisé",
+                                emoji: antilinkData.wl_channel && antilinkData.wl_channel.split(',').length > 0 ? "✅" : "❌",
+                                value: "wlChannel"
+                            },
+                            {
+                                label: "Lien Autorisé",
+                                emoji: antilinkData.wl_link && antilinkData.wl_link.split(',').length > 0 ? "✅" : "❌",
+                                value: "wlLink"
+                            }
+                        ]
+                    }]
+                }, {
+                    type: 1,
+                    components: [{
+                        type: 2,
+                        customId: "back" + message.id,
+                        emoji: "1277988783874375751",
+                        style: 2
+                    },{
+                        type: 2,
+                        customId: "allowed_users" + message.id,
+                        emoji: "1278983711794397244",
+                        disabled: antilinkData.wl_users < 0,
+                        style: 2
+                    }, {
+                        type: 2,
+                        customId: "allowed_roles" + message.id,
+                        emoji: "1279002291050905662",
+                        disabled: antilinkData.wl_role < 0,
+                        style: 2
+                    }, {
+                        type: 2,
+                        customId: "allowed_channels" + message.id,
+                        emoji: "1277988776760705037",
+                        disabled: antilinkData.wl_channel < 0,
+                        style: 2
+                    }]
+                }]
+            });
+        } else
+            if (i.customId === "wlChannel" + message.id) {
+            let wlChannel = antilinkData.wl_channel ? antilinkData.wl_channel.split(",") : [];
+            const channelId = i.values[0];
+            if (wlChannel.includes(channelId)) {
+                wlChannel = wlChannel.filter(id => id !== channelId)
+            } else {
+                wlChannel.push(channelId)
+            }
+            await Antilink.update({
+                wl_channel: wlChannel.join(",")
+            }, {
+                where: {
+                    guildId: message.guild.id
+                }
+            });
+            antilinkData.wl_channel = wlChannel.join(",")
+            const settingsEmbed = new EmbedBuilder()
+                .setTitle(`${message.guild.name} : AntiLink`)
+                .setDescription(`\`\`\`État: ${antilinkData.bypass_status ? "✅" : "❌"}\nBot_Owner Autorisé: ${antilinkData.use_botOwner ? "✅" : "❌"}\nUtilisateurs Whitelist Autorisé : ${antilinkData.use_botWl ? "✅" : "❌"}\nUtilisateurs Indépendants : ${antilinkData.wl_users > 0 ? "✅" : "❌"}\nRole Autorisé: ${antilinkData.wl_role > 0 ? "✅" : "❌"}\nChannel Autorisé: ${antilinkData.wl_channel > 0 ? "✅" : "❌"}\nLien Autorisé: ${antilinkData.wl_link > 0 ? "✅" : "❌"}\`\`\``)
+                .setFooter({
+                    text: client.footer.text,
+                    iconURL: client.footer.iconURL
+                })
+                .setTimestamp()
+                .setColor(client.color);
+            await msg.edit({
+                embeds: [settingsEmbed],
+                components: [{
+                    type: 1,
+                    components: [{
+                        type: 3,
+                        customId: "status_settings" + message.id,
+                        options: [
+                            {
+                                label: antilinkData.use_botOwner ? "Ne pas autoriser les owners du bot à bypass le module" : "Autoriser les owners du bot à bypass le module",
+                                emoji: antilinkData.use_botOwner ? "✅" : "❌",
+                                value: "useBotOwner"
+                            },
+                            {
+                                label: antilinkData.use_botWl ? "Ne pas autoriser les utilisateurs WL à bypass le module" : "Autoriser les utilisateurs WL à bypass le module",
+                                emoji: antilinkData.use_botWl ? "✅" : "❌",
+                                value: "useBotWl"
+                            },
+                            {
+                                label: "Utilisateur indépendant",
+                                emoji: antilinkData.wl_users && antilinkData.wl_users.split(',').length > 0 ? "✅" : "❌",
+                                value: "wlUser"
+                            },
+                            {
+                                label: "Rôle Autorisé",
+                                emoji: antilinkData.wl_role && antilinkData.wl_role.split(',').length > 0 ? "✅" : "❌",
+                                value: "wlRole"
+                            },
+                            {
+                                label: "Channel Autorisé",
+                                emoji: antilinkData.wl_channel && antilinkData.wl_channel.split(',').length > 0 ? "✅" : "❌",
+                                value: "wlChannel"
+                            },
+                            {
+                                label: "Lien Autorisé",
+                                emoji: antilinkData.wl_link && antilinkData.wl_link.split(',').length > 0 ? "✅" : "❌",
+                                value: "wlLink"
+                            }
+                        ]
+                    }]
+                }, {
+                    type: 1,
+                    components: [{
+                        type: 2,
+                        customId: "back" + message.id,
+                        emoji: "1277988783874375751",
+                        style: 2
+                    },{
+                        type: 2,
+                        customId: "allowed_users" + message.id,
+                        emoji: "1278983711794397244",
+                        disabled: antilinkData.wl_users < 0,
+                        style: 2
+                    }, {
+                        type: 2,
+                        customId: "allowed_roles" + message.id,
+                        emoji: "1279002291050905662",
+                        disabled: antilinkData.wl_role < 0,
+                        style: 2
+                    }, {
+                        type: 2,
+                        customId: "allowed_channels" + message.id,
+                        emoji: "1277988776760705037",
+                        disabled: antilinkData.wl_channel < 0,
+                        style: 2
+                    }]
+                }]
+            });
+        } else if (i.customId === "back" + message.id){
+          await upEmb()
+        }
+        else if (i.customId === "wlRole" + message.id) {
+            let wlRole = antilinkData.wl_role ? antilinkData.wl_role.split(",") : [];
+            const roleId = i.values[0];
+            if (wlRole.includes(roleId)) {
+                wlRole = wlRole.filter(id => id !== roleId)
+            } else {
+                wlRole.push(roleId)
+            }
+            antilinkData.wl_role = wlRole.join(",")
+            Antilink.update({
+                wl_role: wlRole.join(",")
+            }, {
+                where: {
+                    guildId: message.guild.id
+                }
+            });
+            const settingsEmbed = new EmbedBuilder()
+                .setTitle(`${message.guild.name} : AntiLink`)
+                .setDescription(`\`\`\`État: ${antilinkData.bypass_status ? "✅" : "❌"}\nBot_Owner Autorisé: ${antilinkData.use_botOwner ? "✅" : "❌"}\nUtilisateurs Whitelist Autorisé : ${antilinkData.use_botWl ? "✅" : "❌"}\nUtilisateurs Indépendants : ${antilinkData.wl_users > 0 ? "✅" : "❌"}\nRole Autorisé: ${antilinkData.wl_role > 0 ? "✅" : "❌"}\nChannel Autorisé: ${antilinkData.wl_channel > 0 ? "✅" : "❌"}\nLien Autorisé: ${antilinkData.wl_link > 0 ? "✅" : "❌"}\`\`\``)
+                .setFooter({
+                    text: client.footer.text,
+                    iconURL: client.footer.iconURL
+                })
+                .setTimestamp()
+                .setColor(client.color);
+            await msg.edit({
+                embeds: [settingsEmbed],
+                components: [{
+                    type: 1,
+                    components: [{
+                        type: 3,
+                        customId: "status_settings" + message.id,
+                        options: [
+                            {
+                                label: antilinkData.use_botOwner ? "Ne pas autoriser les owners du bot à bypass le module" : "Autoriser les owners du bot à bypass le module",
+                                emoji: antilinkData.use_botOwner ? "✅" : "❌",
+                                value: "useBotOwner"
+                            },
+                            {
+                                label: antilinkData.use_botWl ? "Ne pas autoriser les utilisateurs WL à bypass le module" : "Autoriser les utilisateurs WL à bypass le module",
+                                emoji: antilinkData.use_botWl ? "✅" : "❌",
+                                value: "useBotWl"
+                            },
+                            {
+                                label: "Utilisateur indépendant",
+                                emoji: antilinkData.wl_users && antilinkData.wl_users.split(',').length > 0 ? "✅" : "❌",
+                                value: "wlUser"
+                            },
+                            {
+                                label: "Rôle Autorisé",
+                                emoji: antilinkData.wl_role && antilinkData.wl_role.split(',').length > 0 ? "✅" : "❌",
+                                value: "wlRole"
+                            },
+                            {
+                                label: "Channel Autorisé",
+                                emoji: antilinkData.wl_channel && antilinkData.wl_channel.split(',').length > 0 ? "✅" : "❌",
+                                value: "wlChannel"
+                            },
+                            {
+                                label: "Lien Autorisé",
+                                emoji: antilinkData.wl_link && antilinkData.wl_link.split(',').length > 0 ? "✅" : "❌",
+                                value: "wlLink"
+                            }
+                        ]
+                    }]
+                }, {
+                    type: 1,
+                    components: [{
+                        type: 2,
+                        customId: "back" + message.id,
+                        emoji: "1277988783874375751",
+                        style: 2
+                    },{
+                        type: 2,
+                        customId: "allowed_users" + message.id,
+                        emoji: "1278983711794397244",
+                        disabled: antilinkData.wl_users < 0,
+                        style: 2
+                    }, {
+                        type: 2,
+                        customId: "allowed_roles" + message.id,
+                        emoji: "1279002291050905662",
+                        disabled: antilinkData.wl_role < 0,
+                        style: 2
+                    }, {
+                        type: 2,
+                        customId: "allowed_channels" + message.id,
+                        emoji: "1277988776760705037",
+                        disabled: antilinkData.wl_channel < 0,
+                        style: 2
+                    }]
+                }]
+            });
+        }
+        else if (i.customId === "backk" + message.id) {
+            const settingsEmbed = new EmbedBuilder()
+                .setTitle(`${message.guild.name} : AntiLink`)
+                .setDescription(`\`\`\`État: ${antilinkData.bypass_status ? "✅" : "❌"}\nBot_Owner Autorisé: ${antilinkData.use_botOwner ? "✅" : "❌"}\nUtilisateurs Whitelist Autorisé : ${antilinkData.use_botWl ? "✅" : "❌"}\nUtilisateurs Indépendants : ${antilinkData.wl_users > 0 ? "✅" : "❌"}\nRole Autorisé: ${antilinkData.wl_role > 0 ? "✅" : "❌"}\nChannel Autorisé: ${antilinkData.wl_channel > 0 ? "✅" : "❌"}\nLien Autorisé: ${antilinkData.wl_link > 0 ? "✅" : "❌"}\`\`\``)
+                .setFooter({
+                    text: client.footer.text,
+                    iconURL: client.footer.iconURL
+                })
+                .setTimestamp()
+                .setColor(client.color);
+            await msg.edit({
+                embeds: [settingsEmbed],
+                components: [{
+                    type: 1,
+                    components: [{
+                        type: 3,
+                        customId: "status_settings" + message.id,
+                        options: [
+                            {
+                                label: antilinkData.use_botOwner ? "Ne pas autoriser les owners du bot à bypass le module" : "Autoriser les owners du bot à bypass le module",
+                                emoji: antilinkData.use_botOwner ? "✅" : "❌",
+                                value: "useBotOwner"
+                            },
+                            {
+                                label: antilinkData.use_botWl ? "Ne pas autoriser les utilisateurs WL à bypass le module" : "Autoriser les utilisateurs WL à bypass le module",
+                                emoji: antilinkData.use_botWl ? "✅" : "❌",
+                                value: "useBotWl"
+                            },
+                            {
+                                label: "Utilisateur indépendant",
+                                emoji: antilinkData.wl_users && antilinkData.wl_users.split(',').length > 0 ? "✅" : "❌",
+                                value: "wlUser"
+                            },
+                            {
+                                label: "Rôle Autorisé",
+                                emoji: antilinkData.wl_role && antilinkData.wl_role.split(',').length > 0 ? "✅" : "❌",
+                                value: "wlRole"
+                            },
+                            {
+                                label: "Channel Autorisé",
+                                emoji: antilinkData.wl_channel && antilinkData.wl_channel.split(',').length > 0 ? "✅" : "❌",
+                                value: "wlChannel"
+                            },
+                            {
+                                label: "Lien Autorisé",
+                                emoji: antilinkData.wl_link && antilinkData.wl_link.split(',').length > 0 ? "✅" : "❌",
+                                value: "wlLink"
+                            }
+                        ]
+                    }]
+                }, {
+                    type: 1,
+                    components: [{
+                        type: 2,
+                        customId: "back" + message.id,
+                        emoji: "1277988783874375751",
+                        style: 2
+                    },{
+                        type: 2,
+                        customId: "allowed_users" + message.id,
+                        emoji: "1278983711794397244",
+                        disabled: antilinkData.wl_users < 0,
+                        style: 2
+                    }, {
+                        type: 2,
+                        customId: "allowed_roles" + message.id,
+                        emoji: "1279002291050905662",
+                        disabled: antilinkData.wl_role < 0,
+                        style: 2
+                    }, {
+                        type: 2,
+                        customId: "allowed_channels" + message.id,
+                        emoji: "1277988776760705037",
+                        disabled: antilinkData.wl_channel < 0,
+                        style: 2
+                    }]
+                }]
+            });
+        }
+        else if (i.customId === "addLink" + message.id) {
+            let question = await message.channel.send({
+                content: "Quel lien souhaiter vous ignorez avec l'antilink ?"
+            });
+                let messCollector = await message.channel.awaitMessages({
+                    filter: m => m.author.id === message.author.id,
+                    max: 1,
+                    time: client.ms('2m'),
+                    errors: ["time"]
+                }).then(async cld => {
+                    if (!cld.first().content.trim()) return message.channel.send({content:"Aucun lien n'a été fourni."});
+                    let wl_links = antilinkData.wl_link ? antilinkData.wl_link.split(',') : [];
+                    if (wl_links.includes(cld.first().content.trim())) {
+                        return message.reply({content:"Ce lien est déjà ignoré par l'antilink."});
+                    } else {
+                        wl_links.push(cld.first().content.trim())
+                    }
+                    antilinkData.wl_link = wl_links.join(',')
+                    await Antilink.update({wl_link: wl_links.join(",")}, {where: {guildId: message.guild.id}})
+                    await message.reply({
+                        content: `\`${cld.first().content.trim()}\` ajouté à la liste des liens ignorés`
+                    })
+                    await question.delete();
+                    await cld.first().delete()
+                    let embed = new EmbedBuilder()
+                        .setTitle(`${message.guild.name} : AntiLink`)
+                        .setDescription("```" + `Lien Autorisé:\n${wl_links.length > 0 ? wl_links.join("\n") : "❌"}` + "```")
+                        .setFooter({
+                            text: client.footer.text,
+                            iconURL: client.footer.iconURL
+                        })
+                        .setTimestamp()
+                        .setColor(client.color);
+                    await msg.edit({
+                        embeds: [embed],
+                        components: [{
+                            type: 1,
+                            components: [{
+                                type: 2,
+                                customId: "backk" + message.id,
+                                emoji: "1277988783874375751",
+                                style: 2
+                            }, {
+                                type: 2,
+                                customId: "addLink" + message.id,
+                                emoji: "1279064309141602324",
+                                style: 2
+                            }, {
+                                type: 2,
+                                customId: "resetLink" + message.id,
+                                emoji: "1068874860169793588",
+                                style: 2
+                            }, {
+                                type: 2,
+                                customId: "removeLink" + message.id,
+                                emoji: "827275974390579250",
+                                style: 2
+                            }]
+                        }]
+                    })
+                })
+            }
     });
 }

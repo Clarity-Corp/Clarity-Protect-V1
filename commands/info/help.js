@@ -3,8 +3,10 @@ const {
     ActionRowBuilder,
     EmbedBuilder,
     ButtonBuilder,
+    AttachmentBuilder
 } = require('discord.js')
 const Help = require('../../Structure/Db/Models/Client/help');
+const path = require("path")
 module.exports = {
     name: 'help',
     aliases: ['h'],
@@ -289,7 +291,8 @@ module.exports = {
             });
         }
         if (helpData.style === "clarity") {
-
+            let imgPath = path.resolve(__dirname, "../../Structure/Files/Images/head_commandes.png");
+            let bxcimg = new AttachmentBuilder(imgPath, { name: 'clarity_help.png' });
 
 
             const categoriesDescription = "```" +
@@ -301,12 +304,8 @@ module.exports = {
                 .setTitle("Page d'aide des commandes")
                 .addFields({
                     name: "Information",
-                    value: "```" + `▶ Mon Support : ${client.config.support}` + "```",
+                    value: "```" + `▶ Version : ${client.version}` + "```",
                     inline: false,
-                },{
-                    name: "🔹 Version",
-                    value: `\`\`\`[${client.version}]\`\`\``,
-                    inline: true,
                 }, {
                     name: "📚 Catégories",
                     value: categoriesDescription || "Aucune catégorie disponible.",
@@ -322,7 +321,6 @@ module.exports = {
                         "```" + "\n" + "```\n" + `Nombre de commandes: ${client.commands.size}` + "```",
                     inline: true,
                 })
-                .setImage(client.user.displayAvatarURL({dynamic: true}))
                 .setThumbnail(client.thumbnail.iconURL)
                 .setColor(client.color)
                 .setFooter({
@@ -348,7 +346,10 @@ module.exports = {
 
             const actionRow = new ActionRowBuilder().addComponents(selectMenu);
             const actionRow2 = new ActionRowBuilder().addComponents(homeButton);
-            const replyMsg = await message.reply({ embeds: [embed], components: [actionRow], allowedMentions: { repliedUser: false } });
+            const replyMsg = await message.reply({ files: [bxcimg] ,embeds: [embed], components: [actionRow], allowedMentions: { repliedUser: false } });
+            await message.channel.send({
+                content: "https://discord.gg/8RWmR5M9Ub"
+            })
 
             const filter = i => i.user.id === message.author.id;
             const collector = replyMsg.createMessageComponentCollector({ filter, time: 900000 });
