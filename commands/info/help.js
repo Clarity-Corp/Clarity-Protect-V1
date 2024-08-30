@@ -168,7 +168,7 @@ module.exports = {
                         text: `${client.footer.text} Commandes total: ${client.commands.size}`,
                         icon_url: client.footer.iconURL
                     },
-                    image: {url: helpData.image},  // Fixed the syntax error here
+                    image: {url: helpData.image}, 
                     fields: [pages[page]]
                 }],
                 components: [new ActionRowBuilder()
@@ -374,7 +374,6 @@ module.exports = {
 
                     await interaction.update({ embeds: [categoryEmbed], components: [actionRow, actionRow2] });
                 } else if (interaction.customId === 'home') {
-                    // If the "Accueil" button is clicked, reset to the original help embed
                     await interaction.update({ embeds: [embed], components: [actionRow] });
                 }
             });
