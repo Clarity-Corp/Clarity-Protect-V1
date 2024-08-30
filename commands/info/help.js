@@ -287,7 +287,7 @@ module.exports = {
             });
 
             collector.on('end', collected => {
-                replyMsg.edit({ components: [] });
+                replyMsg.edit({ components: [] })
             });
         }
         if (helpData.style === "clarity") {
