@@ -10,7 +10,7 @@ module.exports = {
     name: "sethelp",
     category: "Owner",
     cooldown: 5000,
-    userPermissions: [PermissionsBitField.Flags.Administrator],
+    userPermissions: [],
     botPermissions: [],
     ownerOnly: false,
     toggleOff: false,
