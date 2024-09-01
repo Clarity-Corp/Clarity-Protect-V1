@@ -6,7 +6,6 @@ class ClientColor extends Model {
         super.init({
             botId: {
                 type: DataTypes.STRING,
-                primaryKey: true,
             },
             color: {
                 type: DataTypes.STRING,

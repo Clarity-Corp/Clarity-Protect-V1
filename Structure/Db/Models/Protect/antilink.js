@@ -52,6 +52,18 @@ class Antilink extends Model {
                 type: DataTypes.STRING,
                 allowNull: true
             },
+            wl_users: {
+                type: DataTypes.STRING,
+                allowNull: true
+            },
+            use_botWl: {
+                type: DataTypes.BOOLEAN,
+                defaultValue: false
+            },
+            use_botOwner: {
+                type: DataTypes.BOOLEAN,
+                defaultValue: false
+            },
             permission_allowed: {
                 type: DataTypes.BOOLEAN,
                 defaultValue: false

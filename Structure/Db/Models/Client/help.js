@@ -5,7 +5,6 @@ class Help extends Model {
         super.init({
             botId: {
                 type: DataTypes.STRING,
-                primaryKey: true,
             },
             style: {
                 type: DataTypes.TEXT,
