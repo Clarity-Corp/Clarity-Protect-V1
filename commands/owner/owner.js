@@ -53,5 +53,56 @@ module.exports = {
                     userId: user.id
                 });
                 message.reply({ content: `${user} est maintenant owner bot` });
+                break;
+            case "remove":
+                if (!user) {
+                    return message.reply({
+                        content: "Vous devez mentionner un utilisateur"
+                    });
+                }
+                const isOwner = await Owner.findOne({
+                    where: {
+                        botId: client.user.id,
+                        userId: user.id
+                    }
+                })
+                if (!isOwner) {
+                    return message.reply({ content: `${user} n'est pas owner bot` });
+                }
+                await Owner.destroy({
+                    where: {
+                        botId: client.user.id,
+                        userId: user.id
+                    }
+                })
+                message.reply({ content: `${user} n'est plus owner bot` });
+                break;
+            case "list":
+                const whitelistEntries = await Owner.findAll({
+                    where: {
+                        botId: client.user.id
+                    }
+                });
+
+                if (whitelistEntries.length === 0) {
+                    return message.reply({
+                        content: "Il n'y a aucun owner bot"
+                    });
+                }
+                const blList = await Promise.all(whitelistEntries.map(async entry => {
+                    const user = await client.users.fetch(entry.userId).catch(() => { });
+                    return `[${user.username}](https://discord.com/users/${entry.userId})`;
+                }));
+                message.reply({
+                    embeds: [{
+                        title: "Owner",
+                        description: blList.join("\n"),
+                        color: await client.color,
+                        footer: client.footer
+                    }]
+                });
+                break;
+            default:
+                return message.reply({ content: "Usage: owner <add/remove/list> <utilisateur>" });
         }
     }}

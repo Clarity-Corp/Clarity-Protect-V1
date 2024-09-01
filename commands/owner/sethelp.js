@@ -6,6 +6,7 @@ const {
 } = require('discord.js')
 const { PermissionsBitField } = require('discord.js');
 const Help = require('../../Structure/Db/Models/Client/help');
+const Owner = require("../../Structure/Db/Models/Buyer/Owner");
 module.exports = {
     name: "sethelp",
     category: "Owner",
@@ -18,6 +19,15 @@ module.exports = {
     bumpOnly: false,
     guildOwnerOnly: false,
     run: async (client, message, args) => {
+        let isOwner = await Owner.findOne({
+            where: {
+                botId: client.user.id,
+                userId: message.author.id
+            }
+        });
+        if (!isOwner) return message.reply({
+            content: "Vous n'avez pas la permission requise pour utiliser cette commande"
+        })
         let msg = await message.channel.send({content: 'Chargement du module en cours . . .'});
         await embed(client, message, msg);
     }

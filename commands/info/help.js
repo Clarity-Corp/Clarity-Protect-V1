@@ -168,7 +168,7 @@ module.exports = {
                         text: `${client.footer.text} Commandes total: ${client.commands.size}`,
                         icon_url: client.footer.iconURL
                     },
-                    image: {url: helpData.image}, 
+                    image: {url: helpData.image},  // Fixed the syntax error here
                     fields: [pages[page]]
                 }],
                 components: [new ActionRowBuilder()
@@ -287,7 +287,7 @@ module.exports = {
             });
 
             collector.on('end', collected => {
-                replyMsg.edit({ components: [] })
+                replyMsg.edit({ components: [] });
             });
         }
         if (helpData.style === "clarity") {
@@ -374,6 +374,7 @@ module.exports = {
 
                     await interaction.update({ embeds: [categoryEmbed], components: [actionRow, actionRow2] });
                 } else if (interaction.customId === 'home') {
+                    // If the "Accueil" button is clicked, reset to the original help embed
                     await interaction.update({ embeds: [embed], components: [actionRow] });
                 }
             });

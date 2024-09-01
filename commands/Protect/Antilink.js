@@ -10,7 +10,6 @@ const {
 const { PermissionsBitField } = require('discord.js');
 const Antilink = require('../../Structure/Db/Models/Protect/antilink');
 const Logs = require("../../Structure/Db/Models/logs/Logs");
-
 module.exports = {
     name: "antilink",
     description: "Manage antilink module",
@@ -308,8 +307,8 @@ async function embed(client, message, msg) {
                         style: 2
                     }, {
                         type: 2,
-                        customId: "allowed_channels" + message.id,
-                        emoji: "1277988776760705037",
+                        customId: "rep_config" + message.id,
+                        emoji: "1224360258726527178",
                         disabled: antilinkData.wl_channel < 0,
                         style: 2
                     }]
@@ -394,8 +393,8 @@ async function embed(client, message, msg) {
                             style: 2
                         }, {
                             type: 2,
-                            customId: "allowed_channels" + message.id,
-                            emoji: "1277988776760705037",
+                            customId: "rep_config" + message.id,
+                            emoji: "1224360258726527178",
                             disabled: antilinkData.wl_channel < 0,
                             style: 2
                         }]
@@ -591,8 +590,8 @@ async function embed(client, message, msg) {
                         style: 2
                     }, {
                         type: 2,
-                        customId: "allowed_channels" + message.id,
-                        emoji: "1277988776760705037",
+                        customId: "rep_config" + message.id,
+                        emoji: "1224360258726527178", 
                         disabled: antilinkData.wl_channel < 0,
                         style: 2
                     }]
@@ -686,8 +685,8 @@ async function embed(client, message, msg) {
                         style: 2
                     }, {
                         type: 2,
-                        customId: "allowed_channels" + message.id,
-                        emoji: "1277988776760705037",
+                        customId: "rep_config" + message.id,
+                        emoji: "1224360258726527178",
                         disabled: antilinkData.wl_channel < 0,
                         style: 2
                     }]
@@ -783,8 +782,8 @@ async function embed(client, message, msg) {
                         style: 2
                     }, {
                         type: 2,
-                        customId: "allowed_channels" + message.id,
-                        emoji: "1277988776760705037",
+                        customId: "rep_config" + message.id,
+                        emoji: "1224360258726527178",
                         disabled: antilinkData.wl_channel < 0,
                         style: 2
                     }]
@@ -864,7 +863,7 @@ async function embed(client, message, msg) {
                     }, {
                         type: 2,
                         customId: "allowed_channels" + message.id,
-                        emoji: "1277988776760705037",
+                        emoji: "1224360258726527178",
                         disabled: antilinkData.wl_channel < 0,
                         style: 2
                     }]
@@ -897,7 +896,7 @@ async function embed(client, message, msg) {
                     await message.reply({
                         content: `\`${cld.first().content.trim()}\` ajouté à la liste des liens ignorés`
                     }).then(m => {
-                        setTimeout(m.delete(), client.ms("5s"))
+                        setTimeout((m) => m.delete(), client.ms("5s"))
                     })
                     await question.delete();
                     await cld.first().delete()
@@ -955,7 +954,7 @@ async function embed(client, message, msg) {
                     errors: ["time"]
                 }).then(async cld => {
                     if (!cld.first().content.trim()) return message.channel.send({content:"Aucun lien n'a été fourni."}).then(m => {
-                        setTimeout(m.delete(), client.ms("5s"))
+                        setTimeout((m) => m.delete(), client.ms("5s"))
                     });
                     let wl_links = await antilinkData.wl_link ? antilinkData.wl_link.split(',') : [];
                     if (!wl_links.includes(cld.first().content.trim())) {
@@ -1032,7 +1031,7 @@ async function embed(client, message, msg) {
                         return message.channel.send({
                             content: "Réinitialisation annulée."
                         }).then(m => {
-                            setTimeout(m.delete(), client.ms("5s"))
+                            setTimeout((m) => m.delete(), client.ms("5s"))
                         });
                     }
                     let initialLinks = "giphy.com/gifs";
@@ -1149,21 +1148,10 @@ async function embed(client, message, msg) {
                     }]
                 })
             }
-        else if (i.customId === "allowed_channels" + message.id) {
-            let wl_channels = await antilinkData.wl_channel ? antilinkData.wl_channel.split(",") : [];
-                let channelNames = await Promise.all(wl_channels.map(async channelId => {
-                    try {
-                        let channel = message.guild.channels.cache.get(channelId) || await message.guild.channels.fetch(channelId);
-                        console.log(`Fetched Channel for ID ${channelId}:`, channel);
-                        return channel ? channel.name : `Channel inconnu (${channelId})`;
-                    } catch (error) {
-                        console.error(`Error fetching channel with ID ${channelId}:`, error);
-                        return `Channel inconnu (${channelId})`;
-                    }
-                }));
+        else if (i.customId === "rep_config" + message.id) {
                 let embed = new EmbedBuilder()
                     .setTitle(`${message.guild.name} : AntiLink`)
-                    .setDescription("```" + `Channels Autorisés:\n${channelNames.length > 0 ? channelNames.join("\n") : "❌"}` + "```")
+                    .setDescription("```" + `Etat:\n${antilinkData.rep ? "✅": "❌"}\nLimite:\n${antilinkData.rep_limit}` + "```")
                     .setFooter({
                         text: client.footer.text,
                         iconURL: client.footer.iconURL
@@ -1181,9 +1169,134 @@ async function embed(client, message, msg) {
                             customId: "backk" + message.id,
                             emoji: "1277988783874375751",
                             style: 2
+                        }, {
+                            type: 2,
+                            customId: "rep_status" + message.id,
+                            emoji: antilinkData.rep ? "1278286880521326593" : "1278286879606968361",
+                            style: 2
+                        }, {
+                            type: 2,
+                            customId: 'rep_limit' + message.id,
+                            emoji: "1224360244201656380",
+                            style: 2
                         }]
                     }]
                 })
+            } else if (i.customId === "rep_status" + message.id) {
+            antilinkData.rep = !antilinkData.rep;
+            await Antilink.update({
+                rep: antilinkData.rep
+            },{
+                where: {
+                    guildId: message.guild.id
+                }
+            });
+                let embed = new EmbedBuilder()
+                    .setTitle(`${message.guild.name} : AntiLink`)
+                    .setDescription("```" + `Etat:\n${antilinkData.rep ? "✅": "❌"}\nLimite:\n${antilinkData.rep_limit}` + "```")
+                    .setFooter({
+                        text: client.footer.text,
+                        iconURL: client.footer.iconURL
+                    })
+                    .setTimestamp()
+                    .setColor(client.color);
+                await msg.edit({
+                    embeds: [embed],
+                    flags: 64,
+                    allowedMentions: { repliedUser: false },
+                    components: [{
+                        type: 1,
+                        components: [{
+                            type: 2,
+                            customId: "backk" + message.id,
+                            emoji: "1277988783874375751",
+                            style: 2
+                        }, {
+                            type: 2,
+                            customId: "rep_status" + message.id,
+                            emoji: antilinkData.rep ? "1278286880521326593" : "1278286879606968361",
+                            style: 2
+                        }, {
+                            type: 2,
+                            customId: 'rep_limit' + message.id,
+                            emoji: "1224360244201656380",
+                            style: 2
+                        }]
+                    }]
+                })
+            } else if (i.customId === 'rep_limit' + message.id) {
+                let question = await message.channel.send({
+                    content: "Quel limite souhaitez-vous avec l'antilink ? (Entre 1 et 10)"
+                });
+
+                let messCollector = await message.channel.awaitMessages({
+                    filter: m => m.author.id === message.author.id,
+                    max: 1,
+                    time: client.ms('2m'),
+                    errors: ["time"]
+                }).then(async cld => {
+                    let limitValue = cld.first().content.trim();
+
+                    if (!/^\d+$/.test(limitValue) || parseInt(limitValue) < 1 || parseInt(limitValue) > 10) {
+                        return message.channel.send({
+                            content: "Veuillez fournir un nombre valide entre 1 et 10."
+                        }).then(m => {
+                            setTimeout((m) => m.delete(), client.ms("5s"))
+                        });
+                    }
+
+                    antilinkData.rep_limit = limitValue;
+                    await Antilink.update({ rep_limit: antilinkData.rep_limit }, { where: { guildId: message.guild.id } });
+
+                    await message.reply({
+                        content: `\`${limitValue}\` est la nouvelle limite de l'antilink avant la sanction`
+                    }).then(m => {
+                        setTimeout(() => m.delete(), client.ms("5s"));
+                    });
+
+                    await question.delete();
+                    await cld.first().delete();
+
+                    let embed = new EmbedBuilder()
+                        .setTitle(`${message.guild.name} : AntiLink`)
+                        .setDescription("```" + `Etat:\n${antilinkData.rep ? "✅" : "❌"}\nLimite:\n${antilinkData.rep_limit}` + "```")
+                        .setFooter({
+                            text: client.footer.text,
+                            iconURL: client.footer.iconURL
+                        })
+                        .setTimestamp()
+                        .setColor(client.color);
+
+                    await msg.edit({
+                        embeds: [embed],
+                        flags: 64,
+                        allowedMentions: { repliedUser: false },
+                        components: [{
+                            type: 1,
+                            components: [{
+                                type: 2,
+                                customId: "backk" + message.id,
+                                emoji: "1277988783874375751",
+                                style: 2
+                            }, {
+                                type: 2,
+                                customId: "rep_status" + message.id,
+                                emoji: antilinkData.rep ? "1278286880521326593" : "1278286879606968361",
+                                style: 2
+                            }, {
+                                type: 2,
+                                customId: 'rep_limit' + message.id,
+                                emoji: "1224360244201656380",
+                                style: 2
+                            }]
+                        }]
+                    });
+                }).catch(async err => {
+                    console.log(err);
+                    await message.reply({
+                        content: "Temps écoulé."
+                    });
+                });
             }
     });
 }
