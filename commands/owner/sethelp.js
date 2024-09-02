@@ -19,12 +19,7 @@ module.exports = {
     bumpOnly: false,
     guildOwnerOnly: false,
     run: async (client, message, args) => {
-        let isOwner = await Owner.findOne({
-            where: {
-                botId: client.user.id,
-                userId: message.author.id
-            }
-        });
+        let isOwner = await client.functions.isOwn(client, message.author.id)
         if (!isOwner) return message.reply({
             content: "Vous n'avez pas la permission requise pour utiliser cette commande"
         })

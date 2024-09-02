@@ -309,7 +309,7 @@ module.exports = {
                 }, {
                     name: "📚 Catégories",
                     value: categoriesDescription || "Aucune catégorie disponible.",
-                    inline: true,
+                    inline: false,
                 }, {
                     name: "📑 Syntaxes",
                     value: "```\n" +
@@ -319,7 +319,7 @@ module.exports = {
                         "() - Spécification\n" +
                         "/ - Sépare syntaxes\n" +
                         "```" + "\n" + "```\n" + `Nombre de commandes: ${client.commands.size}` + "```",
-                    inline: true,
+                    inline: false,
                 })
                 .setThumbnail(client.thumbnail.iconURL)
                 .setColor(client.color)
@@ -346,41 +346,80 @@ module.exports = {
 
             const actionRow = new ActionRowBuilder().addComponents(selectMenu);
             const actionRow2 = new ActionRowBuilder().addComponents(homeButton);
-            const replyMsg = await message.reply({ files: [bxcimg] ,embeds: [embed], components: [actionRow], allowedMentions: { repliedUser: false } });
-            await message.channel.send({
-                content: "https://discord.gg/8RWmR5M9Ub"
-            })
+            const replyMsg = await message.reply({ files: [bxcimg] ,embeds: [embed] ,components: [actionRow, {
+                type: 1,
+                    components: [{
+                    type: 2,
+                    style: 5,
+                    label: "Support",
+                        emoji: "949402402124075081",
+                    url: "https://discord.gg/claritycorp"
+                    },{
+                    type: 2,
+                    style: 5,
+                    emoji: "1277989432213110895",
+                    label: "Invite",
+                    url: `https://discord.com/oauth2/authorize?client_id=${client.user.id}&permissions=8&integration_type=0&scope=bot`
+                    }]
+                }], allowedMentions: { repliedUser: false } });
 
             const filter = i => i.user.id === message.author.id;
             const collector = replyMsg.createMessageComponentCollector({ filter, time: 900000 });
+            const updateCategoryEmbed = async (interaction, category, page) => {
+                const commands = commandsByCategory[category];
+                const pages = [];
+                const chunks = Math.ceil(commands.length / 15);
 
-            collector.on('collect', async interaction => {
-                if (interaction.customId === 'commandes-menu') {
-                    const selectedCategory = interaction.values[0];
-                    const commandsInCategory = commandsByCategory[selectedCategory];
-
-                    const commandsDescription = "```" +
-                        commandsInCategory.map(command => `${command.name}: ${command.description || "Aucune description."}`).join('\n') +
-                        "```";
-
-                    const categoryEmbed = new EmbedBuilder()
-                        .setTitle(`Commandes pour la catégorie: ${selectedCategory}`)
-                        .setDescription(commandsDescription)
-                        .setColor(client.color)
-                        .setFooter({
-                            text: client.footer.text,
-                            iconURL: client.footer.iconURL
-                        });
-
-                    await interaction.update({ embeds: [categoryEmbed], components: [actionRow, actionRow2] });
-                } else if (interaction.customId === 'home') {
-                    // If the "Accueil" button is clicked, reset to the original help embed
-                    await interaction.update({ embeds: [embed], components: [actionRow] });
+                for (let i = 0; i < chunks; i++) {
+                    const commandList = paginate(commands, 15, i).map(command => `\`${prefix}${command.name}\`\n${command.description || 'Aucune description.'}`).join('\n');
+                    pages.push({
+                        name: `${categoryEmojis[category]}〢${category} (${commands.length}) - Page ${i + 1}`,
+                        value: commandList
+                    });
                 }
-            });
 
-            collector.on('end', collected => {
-                replyMsg.edit({ components: [] });
+                const categoryEmbed = new EmbedBuilder()
+                    .setColor(client.color)
+                    .setTimestamp()
+                    .setFooter({
+                        text: client.footer.text,
+                        iconURL: client.footer.iconURL
+                    })
+                    .setAuthor({name: client.user.username, iconURL: client.user.displayAvatarURL({dynamic: true})})
+                    .setImage(helpData.image)
+                    .setThumbnail(client.thumbnail.iconURL)
+                    .setTitle(`🎩 Voici les commandes de la catégorie ${categoryEmojis[category]}〢${category} :`)
+                    .setDescription(pages[page]?.value || 'Aucune commande disponible.');
+                const paginationButtons = new ActionRowBuilder().addComponents(
+                    new ButtonBuilder().setCustomId('prev-page').setLabel('<<').setStyle(2).setDisabled(page === 0),
+                    new ButtonBuilder().setCustomId('next-page').setLabel('>>').setStyle(2).setDisabled(page === pages.length - 1)
+                );
+
+                if (interaction.replied || interaction.deferred) {
+                    await interaction.editReply({ embeds: [categoryEmbed], components: [actionRow, paginationButtons] });
+                } else {
+                    await interaction.update({ embeds: [categoryEmbed], components: [actionRow, paginationButtons] });
+                }
+
+                return pages;
+            }
+            let currentCategory = categories[0];
+            let currentPage = 0;
+            let pages = await updateCategoryEmbed({ update: async () => { } }, currentCategory, currentPage);
+            collector.on('collect', async i => {
+                await i.deferUpdate();
+                if (i.customId === 'commandes-menu') {
+                    currentCategory = i.values[0];
+                    currentPage = 0;
+                    pages = await updateCategoryEmbed(i, currentCategory, currentPage);
+                }  else if (i.customId === 'home') {
+                    // If the "Accueil" button is clicked, reset to the original help embed
+                    await i.update({ embeds: [embed], components: [actionRow] });
+                } else {
+                    if (i.customId === 'next-page') currentPage++;
+                    else if (i.customId === 'prev-page') currentPage--;
+                    await updateCategoryEmbed(i, currentCategory, currentPage);
+                }
             });
         }
     }

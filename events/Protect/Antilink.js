@@ -98,7 +98,9 @@ module.exports = {
         if (data.bypass_status) {
             if (data.wl_link) {
                 let wl_links = data.wl_link ? data.wl_link.split(",") : [];
-                if (wl_links.includes(message.content)) return;
+                for (const wlLink of wl_links) {
+                    if(message.content.includes(wlLink)) return;
+                }
             }
             if (data.wl_users) {
                 let wl_users = data.wl_users ? data.wl_users.split(",") : [];

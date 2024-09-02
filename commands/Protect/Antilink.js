@@ -410,7 +410,7 @@ async function embed(client, message, msg) {
                         guildId: message.guild.id
                     }
                 });
-            await setembUp()
+                await setembUp()
             }
             else if (i.values[0] === "useBotWl") {
                 antilinkData.use_botWl = !antilinkData.use_botWl;
@@ -433,7 +433,16 @@ async function embed(client, message, msg) {
 
                 await msg.edit({
                     embeds: [],
-                    components: [wlComponents]
+                    components: [wlComponents, {
+                        type: 1,
+                        components: [{
+                            type: 2,
+                            customId: "backk" + message.id,
+                            emoji: "1277988783874375751",
+                            style: 2
+                        }
+                        ]
+                    }]
                 })
             } else if (i.values[0] === "wlChannel") {
                 let wlComponents = new ActionRowBuilder().addComponents(
@@ -446,7 +455,16 @@ async function embed(client, message, msg) {
                 )
                 await msg.edit({
                     embeds: [],
-                    components: [wlComponents]
+                    components: [wlComponents, {
+                        type: 1,
+                        components: [{
+                            type: 2,
+                            customId: "backk" + message.id,
+                            emoji: "1277988783874375751",
+                            style: 2
+                        }
+                        ]
+                    }]
                 })
             } else if (i.values[0] === "wlRole") {
                 let wlComponents = new ActionRowBuilder().addComponents(
@@ -458,7 +476,16 @@ async function embed(client, message, msg) {
                 )
                 await msg.edit({
                     embeds: [],
-                    components: [wlComponents]
+                    components: [wlComponents, {
+                        type: 1,
+                        components: [{
+                            type: 2,
+                            customId: "backk" + message.id,
+                            emoji: "1277988783874375751",
+                            style: 2
+                        }
+                        ]
+                    }]
                 })
             } else if (i.values[0] === "wlLink") {
                 let wl_link = await antilinkData.wl_link ? antilinkData.wl_link.split(',') : [];
@@ -591,14 +618,14 @@ async function embed(client, message, msg) {
                     }, {
                         type: 2,
                         customId: "rep_config" + message.id,
-                        emoji: "1224360258726527178", 
+                        emoji: "1224360258726527178",
                         disabled: antilinkData.wl_channel < 0,
                         style: 2
                     }]
                 }]
             });
         } else
-            if (i.customId === "wlChannel" + message.id) {
+        if (i.customId === "wlChannel" + message.id) {
             let wlChannel = antilinkData.wl_channel ? antilinkData.wl_channel.split(",") : [];
             const channelId = i.values[0];
             if (wlChannel.includes(channelId)) {
@@ -614,16 +641,16 @@ async function embed(client, message, msg) {
                 }
             });
             antilinkData.wl_channel = wlChannel.join(",")
-                let wl_links = antilinkData.wl_link ? antilinkData.wl_link.split(',') : [];
-                const settingsEmbed = new EmbedBuilder()
-                    .setTitle(`${message.guild.name} : AntiLink`)
-                    .setDescription(`\`\`\`État: ${antilinkData.bypass_status ? "✅" : "❌"}\nBot_Owner Autorisé: ${antilinkData.use_botOwner ? "✅" : "❌"}\nUtilisateurs Whitelist Autorisé : ${antilinkData.use_botWl ? "✅" : "❌"}\nUtilisateurs Indépendants : ${antilinkData.wl_users > 0 ? "✅" : "❌"}\nRole Autorisé: ${antilinkData.wl_role > 0 ? "✅" : "❌"}\nChannel Autorisé: ${antilinkData.wl_channel > 0 ? "✅" : "❌"}\nLien Autorisé: ${wl_links > 0 ? "✅" : "❌"}\`\`\``)
-                    .setFooter({
-                        text: client.footer.text,
-                        iconURL: client.footer.iconURL
-                    })
-                    .setTimestamp()
-                    .setColor(client.color)
+            let wl_links = antilinkData.wl_link ? antilinkData.wl_link.split(',') : [];
+            const settingsEmbed = new EmbedBuilder()
+                .setTitle(`${message.guild.name} : AntiLink`)
+                .setDescription(`\`\`\`État: ${antilinkData.bypass_status ? "✅" : "❌"}\nBot_Owner Autorisé: ${antilinkData.use_botOwner ? "✅" : "❌"}\nUtilisateurs Whitelist Autorisé : ${antilinkData.use_botWl ? "✅" : "❌"}\nUtilisateurs Indépendants : ${antilinkData.wl_users > 0 ? "✅" : "❌"}\nRole Autorisé: ${antilinkData.wl_role > 0 ? "✅" : "❌"}\nChannel Autorisé: ${antilinkData.wl_channel > 0 ? "✅" : "❌"}\nLien Autorisé: ${wl_links > 0 ? "✅" : "❌"}\`\`\``)
+                .setFooter({
+                    text: client.footer.text,
+                    iconURL: client.footer.iconURL
+                })
+                .setTimestamp()
+                .setColor(client.color)
             await msg.edit({
                 embeds: [settingsEmbed],
                 components: [{
@@ -693,7 +720,7 @@ async function embed(client, message, msg) {
                 }]
             });
         } else if (i.customId === "back" + message.id){
-          await upEmb()
+            await upEmb()
         }
         else if (i.customId === "wlRole" + message.id) {
             let wlRole = antilinkData.wl_role ? antilinkData.wl_role.split(",") : [];
@@ -711,16 +738,16 @@ async function embed(client, message, msg) {
                     guildId: message.guild.id
                 }
             });
-                let wl_links = antilinkData.wl_link ? antilinkData.wl_link.split(',') : [];
-                const settingsEmbed = new EmbedBuilder()
-                    .setTitle(`${message.guild.name} : AntiLink`)
-                    .setDescription(`\`\`\`État: ${antilinkData.bypass_status ? "✅" : "❌"}\nBot_Owner Autorisé: ${antilinkData.use_botOwner ? "✅" : "❌"}\nUtilisateurs Whitelist Autorisé : ${antilinkData.use_botWl ? "✅" : "❌"}\nUtilisateurs Indépendants : ${antilinkData.wl_users > 0 ? "✅" : "❌"}\nRole Autorisé: ${antilinkData.wl_role > 0 ? "✅" : "❌"}\nChannel Autorisé: ${antilinkData.wl_channel > 0 ? "✅" : "❌"}\nLien Autorisé: ${wl_links > 0 ? "✅" : "❌"}\`\`\``)
-                    .setFooter({
-                        text: client.footer.text,
-                        iconURL: client.footer.iconURL
-                    })
-                    .setTimestamp()
-                    .setColor(client.color)
+            let wl_links = antilinkData.wl_link ? antilinkData.wl_link.split(',') : [];
+            const settingsEmbed = new EmbedBuilder()
+                .setTitle(`${message.guild.name} : AntiLink`)
+                .setDescription(`\`\`\`État: ${antilinkData.bypass_status ? "✅" : "❌"}\nBot_Owner Autorisé: ${antilinkData.use_botOwner ? "✅" : "❌"}\nUtilisateurs Whitelist Autorisé : ${antilinkData.use_botWl ? "✅" : "❌"}\nUtilisateurs Indépendants : ${antilinkData.wl_users > 0 ? "✅" : "❌"}\nRole Autorisé: ${antilinkData.wl_role > 0 ? "✅" : "❌"}\nChannel Autorisé: ${antilinkData.wl_channel > 0 ? "✅" : "❌"}\nLien Autorisé: ${wl_links > 0 ? "✅" : "❌"}\`\`\``)
+                .setFooter({
+                    text: client.footer.text,
+                    iconURL: client.footer.iconURL
+                })
+                .setTimestamp()
+                .setColor(client.color)
             await msg.edit({
                 embeds: [settingsEmbed],
                 components: [{
@@ -791,7 +818,7 @@ async function embed(client, message, msg) {
             });
         }
         else if (i.customId === "backk" + message.id) {
-                let wl_links = antilinkData.wl_link ? antilinkData.wl_link.split(',') : [];
+            let wl_links = antilinkData.wl_link ? antilinkData.wl_link.split(',') : [];
             const settingsEmbed = new EmbedBuilder()
                 .setTitle(`${message.guild.name} : AntiLink`)
                 .setDescription(`\`\`\`État: ${antilinkData.bypass_status ? "✅" : "❌"}\nBot_Owner Autorisé: ${antilinkData.use_botOwner ? "✅" : "❌"}\nUtilisateurs Whitelist Autorisé : ${antilinkData.use_botWl ? "✅" : "❌"}\nUtilisateurs Indépendants : ${antilinkData.wl_users > 0 ? "✅" : "❌"}\nRole Autorisé: ${antilinkData.wl_role > 0 ? "✅" : "❌"}\nChannel Autorisé: ${antilinkData.wl_channel > 0 ? "✅" : "❌"}\nLien Autorisé: ${wl_links.length > 0 ? "✅" : "❌"}\`\`\``)
@@ -874,230 +901,35 @@ async function embed(client, message, msg) {
             let question = await message.channel.send({
                 content: "Quel lien souhaitez vous ignorer avec l'antilink ?"
             });
-                let messCollector = await message.channel.awaitMessages({
-                    filter: m => m.author.id === message.author.id,
-                    max: 1,
-                    time: client.ms('2m'),
-                    errors: ["time"]
-                }).then(async cld => {
-                    if (!cld.first().content.trim()) return message.channel.send({content:"Aucun lien n'a été fourni."}).then(m => {
+            let messCollector = await message.channel.awaitMessages({
+                filter: m => m.author.id === message.author.id,
+                max: 1,
+                time: client.ms('2m'),
+                errors: ["time"]
+            }).then(async cld => {
+                if (!cld.first().content.trim()) return message.channel.send({content:"Aucun lien n'a été fourni."}).then(m => {
+                    setTimeout(m.delete(), client.ms("5s"))
+                });
+                let wl_links = antilinkData.wl_link ? antilinkData.wl_link.split(',') : [];
+                if (wl_links.includes(cld.first().content.trim())) {
+                    return message.reply({content:"Ce lien est déjà ignoré par l'antilink."}).then(m => {
                         setTimeout(m.delete(), client.ms("5s"))
                     });
-                    let wl_links = antilinkData.wl_link ? antilinkData.wl_link.split(',') : [];
-                    if (wl_links.includes(cld.first().content.trim())) {
-                        return message.reply({content:"Ce lien est déjà ignoré par l'antilink."}).then(m => {
-                            setTimeout(m.delete(), client.ms("5s"))
-                        });
-                    } else {
-                        wl_links.push(cld.first().content.trim())
-                    }
-                    antilinkData.wl_link = wl_links.join(',')
-                    await Antilink.update({wl_link: wl_links.join(",")}, {where: {guildId: message.guild.id}})
-                    await message.reply({
-                        content: `\`${cld.first().content.trim()}\` ajouté à la liste des liens ignorés`
-                    }).then(m => {
-                        setTimeout((m) => m.delete(), client.ms("5s"))
-                    })
-                    await question.delete();
-                    await cld.first().delete()
-                    let embed = new EmbedBuilder()
-                        .setTitle(`${message.guild.name} : AntiLink`)
-                        .setDescription("```" + `Lien Autorisé:\n${wl_links.length > 0 ? wl_links.join("\n") : "❌"}` + "```")
-                        .setFooter({
-                            text: client.footer.text,
-                            iconURL: client.footer.iconURL
-                        })
-                        .setTimestamp()
-                        .setColor(client.color);
-                    await msg.edit({
-                        embeds: [embed],
-                        components: [{
-                            type: 1,
-                            components: [{
-                                type: 2,
-                                customId: "backk" + message.id,
-                                emoji: "1277988783874375751",
-                                style: 2
-                            }, {
-                                type: 2,
-                                customId: "addLink" + message.id,
-                                emoji: "1279064309141602324",
-                                style: 2
-                            }, {
-                                type: 2,
-                                customId: "resetLink" + message.id,
-                                emoji: "1068874860169793588",
-                                style: 2
-                            }, {
-                                type: 2,
-                                customId: "removeLink" + message.id,
-                                emoji: "827275974390579250",
-                                style: 2
-                            }]
-                        }]
-                    })
-                }).catch(async err => {
-                    console.log(err)
-                    await message.reply({
-                        content: "Temps écoulé."
-                    })
+                } else {
+                    wl_links.push(cld.first().content.trim())
+                }
+                antilinkData.wl_link = wl_links.join(',')
+                await Antilink.update({wl_link: wl_links.join(",")}, {where: {guildId: message.guild.id}})
+                await message.reply({
+                    content: `\`${cld.first().content.trim()}\` ajouté à la liste des liens ignorés`
+                }).then(m => {
+                    setTimeout(m.delete(), client.ms("5s"))
                 })
-            }
-        else if (i.customId === "removeLink" + message.id) {
-                let question = await message.channel.send({
-                    content: "Quel lien souhaitez vous ne plus ignorer avec l'antilink ?"
-                });
-                let messCollector = await message.channel.awaitMessages({
-                    filter: m => m.author.id === message.author.id,
-                    max: 1,
-                    time: client.ms('2m'),
-                    errors: ["time"]
-                }).then(async cld => {
-                    if (!cld.first().content.trim()) return message.channel.send({content:"Aucun lien n'a été fourni."}).then(m => {
-                        setTimeout((m) => m.delete(), client.ms("5s"))
-                    });
-                    let wl_links = await antilinkData.wl_link ? antilinkData.wl_link.split(',') : [];
-                    if (!wl_links.includes(cld.first().content.trim())) {
-                        return message.reply({
-                            content: "Ce lien n'est pas ignore par l'antilink"
-                        });
-                    } else {
-                        wl_links = wl_links.filter(link => link !== cld.first().content.trim())
-                    }
-                    antilinkData.wl_link = wl_links.join(',')
-                    await Antilink.update({wl_link: wl_links.join(",")}, {where: {guildId: message.guild.id}})
-                    await message.reply({
-                        content: `\`${cld.first().content.trim()}\` retiré de la liste des liens ignorés`
-                    }).then(m => {
-                        setTimeout(m.delete(), client.ms("5s"))
-                    })
-                    await question.delete();
-                    await cld.first().delete()
-                    let embed = new EmbedBuilder()
-                        .setTitle(`${message.guild.name} : AntiLink`)
-                        .setDescription("```" + `Lien Autorisé:\n${wl_links.length > 0 ? wl_links.join("\n") : "❌"}` + "```")
-                        .setFooter({
-                            text: client.footer.text,
-                            iconURL: client.footer.iconURL
-                        })
-                        .setTimestamp()
-                        .setColor(client.color);
-                    await msg.edit({
-                        embeds: [embed],
-                        components: [{
-                            type: 1,
-                            components: [{
-                                type: 2,
-                                customId: "backk" + message.id,
-                                emoji: "1277988783874375751",
-                                style: 2
-                            }, {
-                                type: 2,
-                                customId: "addLink" + message.id,
-                                emoji: "1279064309141602324",
-                                style: 2
-                            }, {
-                                type: 2,
-                                customId: "resetLink" + message.id,
-                                emoji: "1068874860169793588",
-                                style: 2
-                            }, {
-                                type: 2,
-                                customId: "removeLink" + message.id,
-                                emoji: "827275974390579250",
-                                style: 2
-                            }]
-                        }]
-                    })
-                }).catch(async err => {
-                    console.log(err)
-                    await message.reply({
-                        content: "Temps écoulé."
-                    })
-                })
-            }
-        else if (i.customId === "resetLink" + message.id) {
-                let confirmation = await message.channel.send({
-                    content: "Êtes-vous sûr de vouloir réinitialiser tous les liens ignorés à leur valeur initiale ? Répondez avec 'oui' pour confirmer."
-                });
-
-                let confirmCollector = await message.channel.awaitMessages({
-                    filter: m => m.author.id === message.author.id,
-                    max: 1,
-                    time: client.ms('1m'),
-                    errors: ["time"]
-                }).then(async cld => {
-                    if (cld.first().content.toLowerCase() !== "oui") {
-                        return message.channel.send({
-                            content: "Réinitialisation annulée."
-                        }).then(m => {
-                            setTimeout((m) => m.delete(), client.ms("5s"))
-                        });
-                    }
-                    let initialLinks = "giphy.com/gifs";
-                    antilinkData.wl_link = initialLinks;
-                    await Antilink.update({ wl_link: initialLinks }, { where: { guildId: message.guild.id } });
-
-                    await message.reply({
-                        content: "Tous les liens ignorés ont été réinitialisés."
-                    }).then(m => {
-                        setTimeout(m.delete(), client.ms("5s"))
-                    });
-
-                    await confirmation.delete();
-                    await cld.first().delete();
-
-                    let embed = new EmbedBuilder()
-                        .setTitle(`${message.guild.name} : AntiLink`)
-                        .setDescription("```" + `Lien Autorisé:\n${initialLinks.length > 0 ? initialLinks.split(',').join("\n") : "❌"}` + "```")
-                        .setFooter({
-                            text: client.footer.text,
-                            iconURL: client.footer.iconURL
-                        })
-                        .setTimestamp()
-                        .setColor(client.color);
-
-                    await msg.edit({
-                        embeds: [embed],
-                        components: [{
-                            type: 1,
-                            components: [{
-                                type: 2,
-                                customId: "backk" + message.id,
-                                emoji: "1277988783874375751",
-                                style: 2
-                            }, {
-                                type: 2,
-                                customId: "addLink" + message.id,
-                                emoji: "1279064309141602324",
-                                style: 2
-                            }, {
-                                type: 2,
-                                customId: "resetLink" + message.id,
-                                emoji: "1068874860169793588",
-                                style: 2
-                            }, {
-                                type: 2,
-                                customId: "removeLink" + message.id,
-                                emoji: "827275974390579250",
-                                style: 2
-                            }]
-                        }]
-                    });
-                }).catch(async err => {
-                    await message.reply({ content: "Temps écoulé. Réinitialisation annulée." });
-                    await confirmation.delete();
-                });
-            }
-        else if (i.customId === "allowed_users" + message.id) {
-            let wl_users = await antilinkData.wl_users ? antilinkData.wl_users.split(",") : [];
-                let userNames = wl_users.map(userId => {
-                    let user = client.users.cache.get(userId);
-                    return user ? user.username : `Utilisateur inconnu (${userId})`;
-                });
+                await question.delete();
+                await cld.first().delete()
                 let embed = new EmbedBuilder()
                     .setTitle(`${message.guild.name} : AntiLink`)
-                    .setDescription("```" + `Utilisateur Autorisé:\n${userNames.length > 0 ? userNames.join("\n") : "❌"}` + "```")
+                    .setDescription("```" + `Lien Autorisé:\n${wl_links.length > 0 ? wl_links.join("\n") : "❌"}` + "```")
                     .setFooter({
                         text: client.footer.text,
                         iconURL: client.footer.iconURL
@@ -1106,8 +938,6 @@ async function embed(client, message, msg) {
                     .setColor(client.color);
                 await msg.edit({
                     embeds: [embed],
-                    flags: 64,
-                    allowedMentions: { repliedUser: false },
                     components: [{
                         type: 1,
                         components: [{
@@ -1115,74 +945,271 @@ async function embed(client, message, msg) {
                             customId: "backk" + message.id,
                             emoji: "1277988783874375751",
                             style: 2
+                        }, {
+                            type: 2,
+                            customId: "addLink" + message.id,
+                            emoji: "1279064309141602324",
+                            style: 2
+                        }, {
+                            type: 2,
+                            customId: "resetLink" + message.id,
+                            emoji: "1068874860169793588",
+                            style: 2
+                        }, {
+                            type: 2,
+                            customId: "removeLink" + message.id,
+                            emoji: "827275974390579250",
+                            style: 2
                         }]
                     }]
                 })
-            }
+            }).catch(async err => {
+                console.log(err)
+                await message.reply({
+                    content: "Temps écoulé."
+                })
+            })
+        }
+        else if (i.customId === "removeLink" + message.id) {
+            let question = await message.channel.send({
+                content: "Quel lien souhaitez vous ne plus ignorer avec l'antilink ?"
+            });
+            let messCollector = await message.channel.awaitMessages({
+                filter: m => m.author.id === message.author.id,
+                max: 1,
+                time: client.ms('2m'),
+                errors: ["time"]
+            }).then(async cld => {
+                if (!cld.first().content.trim()) return message.channel.send({content:"Aucun lien n'a été fourni."}).then(m => {
+                    setTimeout(m.delete(), client.ms("5s"))
+                });
+                let wl_links = await antilinkData.wl_link ? antilinkData.wl_link.split(',') : [];
+                if (!wl_links.includes(cld.first().content.trim())) {
+                    return message.reply({
+                        content: "Ce lien n'est pas ignore par l'antilink"
+                    });
+                } else {
+                    wl_links = wl_links.filter(link => link !== cld.first().content.trim())
+                }
+                antilinkData.wl_link = wl_links.join(',')
+                await Antilink.update({wl_link: wl_links.join(",")}, {where: {guildId: message.guild.id}})
+                await message.reply({
+                    content: `\`${cld.first().content.trim()}\` retiré de la liste des liens ignorés`
+                }).then(m => {
+                    setTimeout(m.delete(), client.ms("5s"))
+                })
+                await question.delete();
+                await cld.first().delete()
+                let embed = new EmbedBuilder()
+                    .setTitle(`${message.guild.name} : AntiLink`)
+                    .setDescription("```" + `Lien Autorisé:\n${wl_links.length > 0 ? wl_links.join("\n") : "❌"}` + "```")
+                    .setFooter({
+                        text: client.footer.text,
+                        iconURL: client.footer.iconURL
+                    })
+                    .setTimestamp()
+                    .setColor(client.color);
+                await msg.edit({
+                    embeds: [embed],
+                    components: [{
+                        type: 1,
+                        components: [{
+                            type: 2,
+                            customId: "backk" + message.id,
+                            emoji: "1277988783874375751",
+                            style: 2
+                        }, {
+                            type: 2,
+                            customId: "addLink" + message.id,
+                            emoji: "1279064309141602324",
+                            style: 2
+                        }, {
+                            type: 2,
+                            customId: "resetLink" + message.id,
+                            emoji: "1068874860169793588",
+                            style: 2
+                        }, {
+                            type: 2,
+                            customId: "removeLink" + message.id,
+                            emoji: "827275974390579250",
+                            style: 2
+                        }]
+                    }]
+                })
+            }).catch(async err => {
+                console.log(err)
+                await message.reply({
+                    content: "Temps écoulé."
+                })
+            })
+        }
+        else if (i.customId === "resetLink" + message.id) {
+            let confirmation = await message.channel.send({
+                content: "Êtes-vous sûr de vouloir réinitialiser tous les liens ignorés à leur valeur initiale ? Répondez avec 'oui' pour confirmer."
+            });
+
+            let confirmCollector = await message.channel.awaitMessages({
+                filter: m => m.author.id === message.author.id,
+                max: 1,
+                time: client.ms('1m'),
+                errors: ["time"]
+            }).then(async cld => {
+                if (cld.first().content.toLowerCase() !== "oui") {
+                    return message.channel.send({
+                        content: "Réinitialisation annulée."
+                    }).then(m => {
+                        setTimeout(m.delete(), client.ms("5s"))
+                    });
+                }
+                let initialLinks = "giphy.com/gifs";
+                antilinkData.wl_link = initialLinks;
+                await Antilink.update({ wl_link: initialLinks }, { where: { guildId: message.guild.id } });
+
+                await message.reply({
+                    content: "Tous les liens ignorés ont été réinitialisés."
+                }).then(m => {
+                    setTimeout(m.delete(), client.ms("5s"))
+                });
+
+                await confirmation.delete();
+                await cld.first().delete();
+
+                let embed = new EmbedBuilder()
+                    .setTitle(`${message.guild.name} : AntiLink`)
+                    .setDescription("```" + `Lien Autorisé:\n${initialLinks.length > 0 ? initialLinks.split(',').join("\n") : "❌"}` + "```")
+                    .setFooter({
+                        text: client.footer.text,
+                        iconURL: client.footer.iconURL
+                    })
+                    .setTimestamp()
+                    .setColor(client.color);
+
+                await msg.edit({
+                    embeds: [embed],
+                    components: [{
+                        type: 1,
+                        components: [{
+                            type: 2,
+                            customId: "backk" + message.id,
+                            emoji: "1277988783874375751",
+                            style: 2
+                        }, {
+                            type: 2,
+                            customId: "addLink" + message.id,
+                            emoji: "1279064309141602324",
+                            style: 2
+                        }, {
+                            type: 2,
+                            customId: "resetLink" + message.id,
+                            emoji: "1068874860169793588",
+                            style: 2
+                        }, {
+                            type: 2,
+                            customId: "removeLink" + message.id,
+                            emoji: "827275974390579250",
+                            style: 2
+                        }]
+                    }]
+                });
+            }).catch(async err => {
+                await message.reply({ content: "Temps écoulé. Réinitialisation annulée." });
+                await confirmation.delete();
+            });
+        }
+        else if (i.customId === "allowed_users" + message.id) {
+            let wl_users = await antilinkData.wl_users ? antilinkData.wl_users.split(",") : [];
+            let userNames = wl_users.map(userId => {
+                let user = client.users.cache.get(userId);
+                return user ? user.username : `Utilisateur inconnu (${userId})`;
+            });
+            let embed = new EmbedBuilder()
+                .setTitle(`${message.guild.name} : AntiLink`)
+                .setDescription("```" + `Utilisateur Autorisé:\n${userNames.length > 0 ? userNames.join("\n") : "❌"}` + "```")
+                .setFooter({
+                    text: client.footer.text,
+                    iconURL: client.footer.iconURL
+                })
+                .setTimestamp()
+                .setColor(client.color);
+            await msg.edit({
+                embeds: [embed],
+                flags: 64,
+                allowedMentions: { repliedUser: false },
+                components: [{
+                    type: 1,
+                    components: [{
+                        type: 2,
+                        customId: "backk" + message.id,
+                        emoji: "1277988783874375751",
+                        style: 2
+                    }]
+                }]
+            })
+        }
         else if (i.customId === "allowed_roles" + message.id) {
             let wl_roles = await antilinkData.wl_role ? antilinkData.wl_role.split(",") : [];
             let roleNames = wl_roles.map(roleId => {
                 return roleId ? message.guild.roles.cache.get(roleId).name :  `Rôle inconnu (${roleId})`;
             });
-                let embed = new EmbedBuilder()
-                    .setTitle(`${message.guild.name} : AntiLink`)
-                    .setDescription("```" + `Rôles Autorisés:\n${roleNames.length > 0 ? roleNames.join("\n") : "❌"}` + "```")
-                    .setFooter({
-                        text: client.footer.text,
-                        iconURL: client.footer.iconURL
-                    })
-                    .setTimestamp()
-                    .setColor(client.color);
-                await msg.edit({
-                    embeds: [embed],
-                    flags: 64,
-                    allowedMentions: { repliedUser: false },
-                    components: [{
-                        type: 1,
-                        components: [{
-                            type: 2,
-                            customId: "backk" + message.id,
-                            emoji: "1277988783874375751",
-                            style: 2
-                        }]
-                    }]
+            let embed = new EmbedBuilder()
+                .setTitle(`${message.guild.name} : AntiLink`)
+                .setDescription("```" + `Rôles Autorisés:\n${roleNames.length > 0 ? roleNames.join("\n") : "❌"}` + "```")
+                .setFooter({
+                    text: client.footer.text,
+                    iconURL: client.footer.iconURL
                 })
-            }
+                .setTimestamp()
+                .setColor(client.color);
+            await msg.edit({
+                embeds: [embed],
+                flags: 64,
+                allowedMentions: { repliedUser: false },
+                components: [{
+                    type: 1,
+                    components: [{
+                        type: 2,
+                        customId: "backk" + message.id,
+                        emoji: "1277988783874375751",
+                        style: 2
+                    }]
+                }]
+            })
+        }
         else if (i.customId === "rep_config" + message.id) {
-                let embed = new EmbedBuilder()
-                    .setTitle(`${message.guild.name} : AntiLink`)
-                    .setDescription("```" + `Etat:\n${antilinkData.rep ? "✅": "❌"}\nLimite:\n${antilinkData.rep_limit}` + "```")
-                    .setFooter({
-                        text: client.footer.text,
-                        iconURL: client.footer.iconURL
-                    })
-                    .setTimestamp()
-                    .setColor(client.color);
-                await msg.edit({
-                    embeds: [embed],
-                    flags: 64,
-                    allowedMentions: { repliedUser: false },
-                    components: [{
-                        type: 1,
-                        components: [{
-                            type: 2,
-                            customId: "backk" + message.id,
-                            emoji: "1277988783874375751",
-                            style: 2
-                        }, {
-                            type: 2,
-                            customId: "rep_status" + message.id,
-                            emoji: antilinkData.rep ? "1278286880521326593" : "1278286879606968361",
-                            style: 2
-                        }, {
-                            type: 2,
-                            customId: 'rep_limit' + message.id,
-                            emoji: "1224360244201656380",
-                            style: 2
-                        }]
-                    }]
+            let embed = new EmbedBuilder()
+                .setTitle(`${message.guild.name} : AntiLink`)
+                .setDescription("```" + `Etat:\n${antilinkData.rep ? "✅": "❌"}\nLimite:\n${antilinkData.rep_limit}` + "```")
+                .setFooter({
+                    text: client.footer.text,
+                    iconURL: client.footer.iconURL
                 })
-            } else if (i.customId === "rep_status" + message.id) {
+                .setTimestamp()
+                .setColor(client.color);
+            await msg.edit({
+                embeds: [embed],
+                flags: 64,
+                allowedMentions: { repliedUser: false },
+                components: [{
+                    type: 1,
+                    components: [{
+                        type: 2,
+                        customId: "backk" + message.id,
+                        emoji: "1277988783874375751",
+                        style: 2
+                    }, {
+                        type: 2,
+                        customId: "rep_status" + message.id,
+                        emoji: antilinkData.rep ? "1278286880521326593" : "1278286879606968361",
+                        style: 2
+                    }, {
+                        type: 2,
+                        customId: 'rep_limit' + message.id,
+                        emoji: "1224360244201656380",
+                        style: 2
+                    }]
+                }]
+            })
+        } else if (i.customId === "rep_status" + message.id) {
             antilinkData.rep = !antilinkData.rep;
             await Antilink.update({
                 rep: antilinkData.rep
@@ -1191,15 +1218,82 @@ async function embed(client, message, msg) {
                     guildId: message.guild.id
                 }
             });
+            let embed = new EmbedBuilder()
+                .setTitle(`${message.guild.name} : AntiLink`)
+                .setDescription("```" + `Etat:\n${antilinkData.rep ? "✅": "❌"}\nLimite:\n${antilinkData.rep_limit}` + "```")
+                .setFooter({
+                    text: client.footer.text,
+                    iconURL: client.footer.iconURL
+                })
+                .setTimestamp()
+                .setColor(client.color);
+            await msg.edit({
+                embeds: [embed],
+                flags: 64,
+                allowedMentions: { repliedUser: false },
+                components: [{
+                    type: 1,
+                    components: [{
+                        type: 2,
+                        customId: "backk" + message.id,
+                        emoji: "1277988783874375751",
+                        style: 2
+                    }, {
+                        type: 2,
+                        customId: "rep_status" + message.id,
+                        emoji: antilinkData.rep ? "1278286880521326593" : "1278286879606968361",
+                        style: 2
+                    }, {
+                        type: 2,
+                        customId: 'rep_limit' + message.id,
+                        emoji: "1224360244201656380",
+                        style: 2
+                    }]
+                }]
+            })
+        } else if (i.customId === 'rep_limit' + message.id) {
+            let question = await message.channel.send({
+                content: "Quel limite souhaitez-vous avec l'antilink ? (Entre 1 et 10)"
+            });
+
+            let messCollector = await message.channel.awaitMessages({
+                filter: m => m.author.id === message.author.id,
+                max: 1,
+                time: client.ms('2m'),
+                errors: ["time"]
+            }).then(async cld => {
+                let limitValue = cld.first().content.trim();
+
+                if (!/^\d+$/.test(limitValue) || parseInt(limitValue) < 1 || parseInt(limitValue) > 10) {
+                    return message.channel.send({
+                        content: "Veuillez fournir un nombre valide entre 1 et 10."
+                    }).then(m => {
+                        setTimeout(m.delete(), client.ms("5s"))
+                    });
+                }
+
+                antilinkData.rep_limit = limitValue;
+                await Antilink.update({ rep_limit: antilinkData.rep_limit }, { where: { guildId: message.guild.id } });
+
+                await message.reply({
+                    content: `\`${limitValue}\` est la nouvelle limite de l'antilink avant la sanction`
+                }).then(m => {
+                    setTimeout(() => m.delete(), client.ms("5s"));
+                });
+
+                await question.delete();
+                await cld.first().delete();
+
                 let embed = new EmbedBuilder()
                     .setTitle(`${message.guild.name} : AntiLink`)
-                    .setDescription("```" + `Etat:\n${antilinkData.rep ? "✅": "❌"}\nLimite:\n${antilinkData.rep_limit}` + "```")
+                    .setDescription("```" + `Etat:\n${antilinkData.rep ? "✅" : "❌"}\nLimite:\n${antilinkData.rep_limit}` + "```")
                     .setFooter({
                         text: client.footer.text,
                         iconURL: client.footer.iconURL
                     })
                     .setTimestamp()
                     .setColor(client.color);
+
                 await msg.edit({
                     embeds: [embed],
                     flags: 64,
@@ -1223,80 +1317,13 @@ async function embed(client, message, msg) {
                             style: 2
                         }]
                     }]
-                })
-            } else if (i.customId === 'rep_limit' + message.id) {
-                let question = await message.channel.send({
-                    content: "Quel limite souhaitez-vous avec l'antilink ? (Entre 1 et 10)"
                 });
-
-                let messCollector = await message.channel.awaitMessages({
-                    filter: m => m.author.id === message.author.id,
-                    max: 1,
-                    time: client.ms('2m'),
-                    errors: ["time"]
-                }).then(async cld => {
-                    let limitValue = cld.first().content.trim();
-
-                    if (!/^\d+$/.test(limitValue) || parseInt(limitValue) < 1 || parseInt(limitValue) > 10) {
-                        return message.channel.send({
-                            content: "Veuillez fournir un nombre valide entre 1 et 10."
-                        }).then(m => {
-                            setTimeout((m) => m.delete(), client.ms("5s"))
-                        });
-                    }
-
-                    antilinkData.rep_limit = limitValue;
-                    await Antilink.update({ rep_limit: antilinkData.rep_limit }, { where: { guildId: message.guild.id } });
-
-                    await message.reply({
-                        content: `\`${limitValue}\` est la nouvelle limite de l'antilink avant la sanction`
-                    }).then(m => {
-                        setTimeout(() => m.delete(), client.ms("5s"));
-                    });
-
-                    await question.delete();
-                    await cld.first().delete();
-
-                    let embed = new EmbedBuilder()
-                        .setTitle(`${message.guild.name} : AntiLink`)
-                        .setDescription("```" + `Etat:\n${antilinkData.rep ? "✅" : "❌"}\nLimite:\n${antilinkData.rep_limit}` + "```")
-                        .setFooter({
-                            text: client.footer.text,
-                            iconURL: client.footer.iconURL
-                        })
-                        .setTimestamp()
-                        .setColor(client.color);
-
-                    await msg.edit({
-                        embeds: [embed],
-                        flags: 64,
-                        allowedMentions: { repliedUser: false },
-                        components: [{
-                            type: 1,
-                            components: [{
-                                type: 2,
-                                customId: "backk" + message.id,
-                                emoji: "1277988783874375751",
-                                style: 2
-                            }, {
-                                type: 2,
-                                customId: "rep_status" + message.id,
-                                emoji: antilinkData.rep ? "1278286880521326593" : "1278286879606968361",
-                                style: 2
-                            }, {
-                                type: 2,
-                                customId: 'rep_limit' + message.id,
-                                emoji: "1224360244201656380",
-                                style: 2
-                            }]
-                        }]
-                    });
-                }).catch(async err => {
-                    console.log(err);
-                    await message.reply({
-                        content: "Temps écoulé."
-                    });
+            }).catch(async err => {
+                console.log(err);
+                await message.reply({
+                    content: "Temps écoulé."
                 });
-            }
+            });
+        }
     });
 }
