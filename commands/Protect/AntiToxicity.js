@@ -876,7 +876,7 @@ async function embed(client, message, msg) {
         }
         else if (i.customId === "sensibility" + message.id) {
             let question = await message.channel.send({
-                content: "Quel sensibilite souhaitez-vous avec l'antitoxicity ? (Saisissez n'importe quel nombre)"
+                content: "Quel sensibilité souhaitez-vous définir pour l'antitoxicity ? (Saisissez un nombre, y compris les décimales)"
             });
 
             let messCollector = await message.channel.awaitMessages({
@@ -887,7 +887,8 @@ async function embed(client, message, msg) {
             }).then(async cld => {
                 let limitValue = cld.first().content.trim();
 
-                if (!/^\d+$/.test(limitValue)) {
+                // Vérification que l'entrée est un nombre (y compris les décimales)
+                if (!/^(\d+(\.\d+)?|\.\d+)$/.test(limitValue)) {
                     return message.channel.send({
                         content: "Veuillez fournir un nombre valide."
                     }).then(m => {
@@ -895,11 +896,11 @@ async function embed(client, message, msg) {
                     });
                 }
 
-                antitoxicityData.sensibility = limitValue;
+                antitoxicityData.sensibility = parseFloat(limitValue);  // Convertir en nombre décimal
                 await Antitoxicity.update({ sensibility: antitoxicityData.sensibility }, { where: { guildId: message.guild.id } });
 
                 await message.reply({
-                    content: `\`${limitValue}\` est la nouvelle limite de l'antitoxcity avant la sanction`
+                    content: `\`${limitValue}\` est la nouvelle sensibilité de l'antitoxicity`
                 }).then(m => {
                     setTimeout(() => m.delete(), client.ms("5s"));
                 });
@@ -908,7 +909,7 @@ async function embed(client, message, msg) {
                 await cld.first().delete();
                 let embed = new EmbedBuilder()
                     .setTitle(`${message.guild.name} : AntiToxicity`)
-                    .setDescription("```" + `Sensibilite:\n${antitoxicityData.sensibility}` + "```")
+                    .setDescription("```" + `Sensibilité:\n${antitoxicityData.sensibility}` + "```")
                     .setFooter({
                         text: client.footer.text,
                         iconURL: client.footer.iconURL
@@ -936,6 +937,8 @@ async function embed(client, message, msg) {
                 })
             });
         }
+
+
 
     })
 }

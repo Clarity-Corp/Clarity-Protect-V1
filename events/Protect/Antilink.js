@@ -118,10 +118,8 @@ module.exports = {
                 if (isWl) return;
             }
             if (data.use_botOwner) {
-                let isOwn = await Owner.findOne({
-                    where: { botId: client.user.id, userId: message.author.id }
-                });
-                if (isOwn) return;
+                let isOwn = client.functions.isOwn(client, message.author.id)
+                if (isOwn) return
             }
         }
 
@@ -193,18 +191,10 @@ async function handleViolationAndWarnings(client, message, member, data, userWar
         userWarnings.delete(message.author.id);
         await handleViolation(member, data.sanction, data.sanction_admin, "Clarity Anti-link system");
         usersWithLinks.delete(message.author.id);
-        await sendTemporaryMessage(message.channel, `${message.author}, vous avez été sanctionné pour avoir envoyé un lien non autorisé. Avertissements : ${warnings}/${data.rep_limit}`, client);
+        await client.functions.tempMessage(message, `${message.author}, vous avez été sanctionné pour avoir envoyé un lien non autorisé. Avertissements : ${warnings}/${data.rep_limit}`, client);
     } else if (data.rep) {
-        await sendTemporaryMessage(message.channel, `${message.author}, vous avez reçu un avertissement pour avoir envoyé un lien non autorisé. Avertissements : ${warnings}/${data.rep_limit}`, client);
+        await client.functions.tempMessage(message, `${message.author}, vous avez reçu un avertissement pour avoir envoyé un lien non autorisé. Avertissements : ${warnings}/${data.rep_limit}`, client);
     } else {
         await handleViolation(member, data.sanction, data.sanction_admin, "Clarity Anti-link system");
     }
-}
-
-async function sendTemporaryMessage(channel, content, client) {
-    await channel.send({ content }).then((m) => {
-        setTimeout(() => {
-            m.delete().catch(() => {});
-        }, client.ms("5s"));
-    });
 }
