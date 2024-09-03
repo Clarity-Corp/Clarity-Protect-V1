@@ -15,8 +15,8 @@ module.exports = {
     roleHasSensiblePermissions(permissions) {
         return permissions.has(268566598n);
     },
-    tempMessage(message, reply) {
-        return message.channel.send(reply).then(mp => setTimeout(() => mp.delete(), 4000));
+    tempMessage(message, reply, client) {
+        return message.channel.send(reply).then(mp => setTimeout(() => mp.delete(), client.ms("5s")));
     },
     dateToEpoch(date) {
         return Math.round(date.getTime() / 1000);
