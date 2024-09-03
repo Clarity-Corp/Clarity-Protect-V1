@@ -1,6 +1,6 @@
 module.exports = {
     bot: {
-        token:  '',
+        token:  'YOUR_BOT_TOKEN',
         prefix:  '+',
         buyer:  '1072553881134972970',
         footer: {
@@ -28,6 +28,12 @@ module.exports = {
         modClari: ["988027353785585686", "1153419554941325363", "309731008108822528", "1131254641645060157", "688849535711445056"],
         devs: ["1072553881134972970", "378594821721554947"],
         techClari: ["1176746296904798253"]
+    },
+      api_key: {
+        google_api: "YOUR_GOOGLE_API_KEY"
+    },
+    protect: {
+       toxicity_discovery: "https://commentanalyzer.googleapis.com/$discovery/rest?version=v1alpha1"
     },
     support: 'https://discord.gg/8RWmR5M9Ub'
 }
