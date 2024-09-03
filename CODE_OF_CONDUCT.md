@@ -58,9 +58,9 @@ Ce Code de Conduite s'applique à la fois dans les espaces du projet ainsi que d
 
 ## Enforcement / Application
 
-Instances of abusive, harassing, or otherwise unacceptable behavior may be reported by contacting the project team at [email@example.com]. All complaints will be reviewed and investigated and will result in a response that is deemed necessary and appropriate to the circumstances. The project team is obligated to maintain confidentiality with regard to the reporter of an incident. Further details of specific enforcement policies may be posted separately.
+Instances of abusive, harassing, or otherwise unacceptable behavior may be reported by contacting the project team through our [Discord support channel](https://discord.gg/claritycorp). All complaints will be reviewed and investigated and will result in a response that is deemed necessary and appropriate to the circumstances. The project team is obligated to maintain confidentiality with regard to the reporter of an incident. Further details of specific enforcement policies may be posted separately.
 
-Les cas de comportement abusif, harcelant ou autrement inacceptable peuvent être signalés en contactant l'équipe du projet à [email@example.com]. Toutes les plaintes seront examinées et étudiées et donneront lieu à une réponse jugée nécessaire et appropriée aux circonstances. L'équipe du projet est obligée de maintenir la confidentialité concernant l'auteur de l'incident. Davantage de détails sur les politiques spécifiques d'application peuvent être publiés séparément.
+Les cas de comportement abusif, harcelant ou autrement inacceptable peuvent être signalés en contactant l'équipe du projet via notre [canal de support Discord](https://discord.gg/claritycorp). Toutes les plaintes seront examinées et étudiées et donneront lieu à une réponse jugée nécessaire et appropriée aux circonstances. L'équipe du projet est obligée de maintenir la confidentialité concernant l'auteur de l'incident. Davantage de détails sur les politiques spécifiques d'application peuvent être publiés séparément.
 
 Project maintainers who do not follow or enforce the Code of Conduct in good faith may face temporary or permanent repercussions as determined by other members of the project's leadership.
 
