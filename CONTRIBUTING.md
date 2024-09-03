@@ -60,9 +60,9 @@ Toutes les contributions seront examinées par l'équipe de mainteneurs. Nous ap
 
 ## Communication
 
-For any questions or further discussion, feel free to join our communication channel [channel_name](#) or contact one of the maintainers directly.
+For any questions or further discussion, feel free to join our communication channel [Support - Clarity Corp](https://discord.gg/claritycorp) or contact one of the maintainers directly.
 
-Pour toute question ou discussion plus approfondie, n'hésitez pas à rejoindre notre canal de communication [nom_du_canal](#) ou à contacter l'un des mainteneurs directement.
+Pour toute question ou discussion plus approfondie, n'hésitez pas à rejoindre notre canal de communication [Support - Clarity Corp](https://discord.gg/claritycorp) ou à contacter l'un des mainteneurs directement.
 
 Thank you again for your contribution!
 
