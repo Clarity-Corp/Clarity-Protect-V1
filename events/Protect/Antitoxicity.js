@@ -1,8 +1,8 @@
 const { google } = require('googleapis');
 const handleViolation = require("../../Structure/Util/handleViolation");
-const Logs = require("../../Structure/Db/Models/logs/Logs");
-const WhiteList = require('../../Structure/Db/Models/Whitelist/index');
-const Antitoxicity = require('../../Structure/Db/Models/Protect/antitoxicity');
+const Logs = require("../../Structure/Models/logs/Logs");
+const WhiteList = require('../../Structure/Models/Whitelist/index');
+const Antitoxicity = require('../../Structure/Models/Protect/antitoxicity');
 const { PermissionsBitField } = require("discord.js");
 const userWarnings = new Map();
 const usersWithToxicity = new Set();

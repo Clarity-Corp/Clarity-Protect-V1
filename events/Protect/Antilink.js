@@ -55,10 +55,10 @@ const linkshttp = [
 const handleViolation = require("../../Structure/Util/handleViolation");
 const userWarnings = new Map();
 const usersWithLinks = new Set();
-const Antilink = require('../../Structure/Db/Models/Protect/antilink');
-const Logs = require("../../Structure/Db/Models/logs/Logs");
-const Owner = require("../../Structure/Db/Models/Buyer/Owner")
-const WhiteList = require('../../Structure/Db/Models/Whitelist/index')
+const Antilink = require('../../Structure/Models/Protect/antilink');
+const Logs = require("../../Structure/Models/logs/Logs");
+const Owner = require("../../Structure/Models/Buyer/Owner")
+const WhiteList = require('../../Structure/Models/Whitelist/index')
 const { PermissionsBitField } = require('discord.js');
 module.exports = {
     name: "messageCreate",

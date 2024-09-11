@@ -1,9 +1,9 @@
-const Prefix = require('../../Structure/Db/Models/Guild/Prefix');
-const GuildLang = require('../../Structure/Db/Models/Guild/Lang')
-const ClientColor = require('../../Structure/Db/Models/Client/Color')
-const GuildColor = require('../../Structure/Db/Models/Guild/Color')
-const ClientFooter = require("../../Structure/Db/Models/Client/Footer")
-const ClientThumbnail = require('../../Structure/Db/Models/Client/Thumbnail')
+const Prefix = require('../../Structure/Models/Guild/Prefix');
+const GuildLang = require('../../Structure/Models/Guild/Lang')
+const ClientColor = require('../../Structure/Models/Client/Color')
+const GuildColor = require('../../Structure/Models/Guild/Color')
+const ClientFooter = require("../../Structure/Models/Client/Footer")
+const ClientThumbnail = require('../../Structure/Models/Client/Thumbnail')
 module.exports = {
     name: 'messageCreate',
     run: async (client, message) => {
