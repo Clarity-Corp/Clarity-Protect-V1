@@ -1,70 +1,28 @@
 const { Sequelize, DataTypes } = require('sequelize');
-const config = require("../Config/index");
 const fs = require('fs');
 const path = require('path');
+let dialect;
 class Database extends Sequelize {
-    constructor() {
-        if (!config || !config.database) {
-            throw new Error('Database configuration is not defined. Ensure that you are passing the correct configuration.');
-        }
+    constructor(clarity) {
 
-        const { dialect, host, username, password, name, Sqlite } = config.database;
-        if (!dialect) {
-            throw new Error('Database dialect is not defined in the configuration.');
-        }
-
-        const commonOptions = {
+        super({
+            dialect: clarity.config.database.dialect,
+            storage: clarity.config.database.Sqlite.storage,
             logging: false,
             define: {
                 charset: 'utf8mb4',
                 collate: 'utf8mb4_general_ci',
                 timestamps: false,
                 freezeTableName: true,
-            },
-            dialectOptions: {
-                busyTimeout: 5000
             }
-        };
+        })
 
-        let sequelizeOptions;
-
-        switch (dialect.toLowerCase()) {
-            case 'sqlite':
-                if (!Sqlite || !Sqlite.storage) {
-                    throw new Error('SQLite storage path is not defined in the configuration.');
-                }
-                sequelizeOptions = Object.assign({}, commonOptions, {
-                    dialect: 'sqlite',
-                    storage: Sqlite.storage,
-                });
-                break;
-            case 'mysql':
-            case 'postgres':
-            case 'mariadb':
-            case 'mssql':
-                if (!host || !username || !password || !name) {
-                    throw new Error(`Missing database credentials for ${dialect} in the configuration.`);
-                }
-                sequelizeOptions = Object.assign({}, commonOptions, {
-                    dialect: dialect.toLowerCase(),
-                    host,
-                    username,
-                    password,
-                    database: name,
-                });
-                break;
-            default:
-                throw new Error(`Unsupported dialect: ${dialect}`);
-        }
-
-        super(sequelizeOptions);
-
-        this.initModel(path.join(__dirname, '../Db/Models'));
+        this.initModel(path.join(__dirname, '../Models'));
 
         this.DataTypes = DataTypes;
         console.log('[DB] Database models initialized successfully.');
+        dialect = clarity.config.database.dialect;
     }
-
     initModel(modelsPath) {
         const modelF = this.getModelF(modelsPath);
         modelF.forEach(file => {
@@ -87,17 +45,12 @@ class Database extends Sequelize {
     async authenticate(options) {
         try {
             await super.authenticate(options);
-            console.log(`[DB] Connected to ${this.getDialect()} database successfully.`);
+            console.log(`[DB] Connected to ${dialect} database successfully.`);
             await this.sync({alter: true});
         } catch (err) {
             console.error(`[ERROR] Unable to connect to the ${this.getDialect()} database:`, err);
             throw err;
         }
     }
-
-    getDialect() {
-        return config.database.dialect;
-    }
 }
-
 module.exports = Database;
