@@ -8,8 +8,8 @@ const {
     RoleSelectMenuBuilder
 } = require('discord.js');
 const { PermissionsBitField } = require('discord.js');
-const Logs = require("../../Structure/Db/Models/logs/Logs");
-const Antitoxicity = require('../../Structure/Db/Models/Protect/antitoxicity');
+const Logs = require("../../Structure/Models/logs/Logs");
+const Antitoxicity = require('../../Structure/Models/Protect/antitoxicity');
 module.exports = {
     name: "antitoxicity",
     description: "Manage antitoxicity module",
@@ -887,7 +887,6 @@ async function embed(client, message, msg) {
             }).then(async cld => {
                 let limitValue = cld.first().content.trim();
 
-                // Vérification que l'entrée est un nombre (y compris les décimales)
                 if (!/^(\d+(\.\d+)?|\.\d+)$/.test(limitValue)) {
                     return message.channel.send({
                         content: "Veuillez fournir un nombre valide."
@@ -896,7 +895,7 @@ async function embed(client, message, msg) {
                     });
                 }
 
-                antitoxicityData.sensibility = parseFloat(limitValue);  // Convertir en nombre décimal
+                antitoxicityData.sensibility = parseFloat(limitValue);
                 await Antitoxicity.update({ sensibility: antitoxicityData.sensibility }, { where: { guildId: message.guild.id } });
 
                 await message.reply({
@@ -937,8 +936,5 @@ async function embed(client, message, msg) {
                 })
             });
         }
-
-
-
     })
 }

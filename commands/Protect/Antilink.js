@@ -8,8 +8,8 @@ const {
     RoleSelectMenuBuilder
 } = require('discord.js');
 const { PermissionsBitField } = require('discord.js');
-const Antilink = require('../../Structure/Db/Models/Protect/antilink');
-const Logs = require("../../Structure/Db/Models/logs/Logs");
+const Antilink = require('../../Structure/Models/Protect/antilink');
+const Logs = require("../../Structure/Models/logs/Logs");
 module.exports = {
     name: "antilink",
     description: "Manage antilink module",

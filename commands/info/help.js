@@ -5,7 +5,7 @@ const {
     ButtonBuilder,
     AttachmentBuilder
 } = require('discord.js')
-const Help = require('../../Structure/Db/Models/Client/help');
+const Help = require('../../Structure/Models/Client/help');
 const path = require("path")
 module.exports = {
     name: 'help',
@@ -347,19 +347,19 @@ module.exports = {
             const actionRow = new ActionRowBuilder().addComponents(selectMenu);
             const actionRow2 = new ActionRowBuilder().addComponents(homeButton);
             const replyMsg = await message.reply({ files: [bxcimg] ,embeds: [embed] ,components: [actionRow, {
-                type: 1,
+                    type: 1,
                     components: [{
-                    type: 2,
-                    style: 5,
-                    label: "Support",
+                        type: 2,
+                        style: 5,
+                        label: "Support",
                         emoji: "949402402124075081",
-                    url: "https://discord.gg/claritycorp"
+                        url: "https://discord.gg/claritycorp"
                     },{
-                    type: 2,
-                    style: 5,
-                    emoji: "1277989432213110895",
-                    label: "Invite",
-                    url: `https://discord.com/oauth2/authorize?client_id=${client.user.id}&permissions=8&integration_type=0&scope=bot`
+                        type: 2,
+                        style: 5,
+                        emoji: "1277989432213110895",
+                        label: "Invite",
+                        url: `https://discord.com/oauth2/authorize?client_id=${client.user.id}&permissions=8&integration_type=0&scope=bot`
                     }]
                 }], allowedMentions: { repliedUser: false } });
 

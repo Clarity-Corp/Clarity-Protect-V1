@@ -1,4 +1,4 @@
-const WhiteList = require('../../Structure/Db/Models/Whitelist/index')
+const WhiteList = require('../../Structure/Models/Whitelist/index')
 module.exports = {
     name: "whitelist",
     description: "Whitelist/unwhitelist des utilisateurs",

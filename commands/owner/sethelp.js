@@ -5,8 +5,8 @@ const {
     ButtonBuilder,
 } = require('discord.js')
 const { PermissionsBitField } = require('discord.js');
-const Help = require('../../Structure/Db/Models/Client/help');
-const Owner = require("../../Structure/Db/Models/Buyer/Owner");
+const Help = require('../../Structure/Models/Client/help');
+
 module.exports = {
     name: "sethelp",
     category: "Owner",

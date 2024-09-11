@@ -1,4 +1,4 @@
-const Owner = require("../../Structure/Db/Models/Buyer/Owner");
+const Owner = require("../../Structure/Models/Buyer/Owner");
 module.exports = {
     name: "owner",
     description: "Owner/unowner des utilisateurs",

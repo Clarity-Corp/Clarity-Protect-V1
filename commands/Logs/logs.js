@@ -6,7 +6,7 @@ const {
     ChannelSelectMenuBuilder
 } = require('discord.js');
 const { PermissionsBitField } = require('discord.js');
-const Logs = require("../../Structure/Db/Models/logs/Logs");
+const Logs = require("../../Structure/Models/logs/Logs");
 
 module.exports = {
     name: "logs",

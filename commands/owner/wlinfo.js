@@ -1,4 +1,4 @@
-const WhiteList = require('../../Structure/Db/Models/Whitelist/index');
+const WhiteList = require('../../Structure/Models/Whitelist/index');
 const { PermissionsBitField } = require("discord.js");
 module.exports = {
     name: 'whitelistinfo',
