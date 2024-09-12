@@ -246,12 +246,9 @@ async function embed(client, message, msg) {
         
             if (collected.size > 0) {
                 const input = collected.first().content;
-             
                 let roleId = input
-                
-                // Récupérer le rôle via son ID
                 let role = message.guild.roles.cache.get(roleId);
-                console.log(`Rôle récupéré: ${role.name}`); // Vérification de la récupération du rôle
+                console.log(`Rôle récupéré: ${role.name}`);
 
                 if (!role) {
                     return message.reply({ content: "Veuillez préciser un rôle valide." }).then(m => 
