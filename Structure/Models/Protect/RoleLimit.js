@@ -14,7 +14,12 @@ class roleLimit extends Model {
             limit: {
                 type: DataTypes.INTEGER,
                 defaultValue: 0
-            }
+            },
+           originalName: {
+            type: DataTypes.STRING,
+            allowNull: true
+           }
+
         }, {
             sequelize,
             modelName: "roleLimit"
