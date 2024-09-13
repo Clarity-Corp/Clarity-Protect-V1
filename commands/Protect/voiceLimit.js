@@ -43,7 +43,7 @@ module.exports = {
                 await handleListCommand(message, client);
                 break;
             default:
-                message.reply({ content: "Commande invalide. Utilisez `set`, `remove`, ou `list`." });
+                message.reply({ content: "Commande invalide. Utilisez `set`, `remove`, ou `list`." }).then(m => {setTimeout(() => { m.delete()}, client.ms("5s"))});
         }
     }
 };
@@ -51,12 +51,12 @@ module.exports = {
 async function handleSetCommand(message, args, getVoiceChannel, client, db) {
     const voiceChannel = getVoiceChannel();
     if (!voiceChannel || voiceChannel.type !== 2) {
-        return message.reply({ content: "Veuillez mentionner un canal vocal valide ou être connecté à un canal vocal." });
+        return message.reply({ content: "Veuillez mentionner un canal vocal valide ou être connecté à un canal vocal." }).then(m => {setTimeout(() => { m.delete()}, client.ms("5s"))});
     }
 
     const limit = parseInt(args[2], 10) || 2;
     if (isNaN(limit) || limit < 0) {
-        return message.reply({ content: "Veuillez préciser une limite d'utilisateur valide (nombre positif)." });
+        return message.reply({ content: "Veuillez préciser une limite d'utilisateur valide (nombre positif)." }).then(m => {setTimeout(() => { m.delete()}, client.ms("5s"))});
     }
 
     await voiceLimit.upsert({
@@ -74,13 +74,13 @@ async function handleSetCommand(message, args, getVoiceChannel, client, db) {
             thumbnail: { url: client.user.displayAvatarURL({ dynamic: true }) },
             author: { name: client.user.username, iconURL: client.user.displayAvatarURL({ dynamic: true }) }
         }]
-    });
+    }).then(m => {setTimeout(() => { m.delete()}, client.ms("5s"))});
 }
 
 async function handleRemoveCommand(message, getVoiceChannel, client) {
     const voiceChannel = getVoiceChannel();
     if (!voiceChannel || voiceChannel.type !== 2) {
-        return message.reply({ content: "Veuillez mentionner un canal vocal valide ou être connecté à un canal vocal." });
+        return message.reply({ content: "Veuillez mentionner un canal vocal valide ou être connecté à un canal vocal." }).then(m => {setTimeout(() => { m.delete()}, client.ms("5s"))});
     }
 
     const deletedCount = await voiceLimit.destroy({
@@ -88,7 +88,7 @@ async function handleRemoveCommand(message, getVoiceChannel, client) {
     });
 
     if (deletedCount === 0) {
-        return message.reply({ content: "Ce salon n'est pas limité." });
+        return message.reply({ content: "Ce salon n'est pas limité." }).then(m => {setTimeout(() => { m.delete()}, client.ms("5s"))});
     }
 
     message.reply({
@@ -100,14 +100,14 @@ async function handleRemoveCommand(message, getVoiceChannel, client) {
             thumbnail: { url: client.user.displayAvatarURL({ dynamic: true }) },
             author: { name: client.user.username, iconURL: client.user.displayAvatarURL({ dynamic: true }) }
         }]
-    });
+    }).then(m => {setTimeout(() => { m.delete()}, client.ms("5s"))});
 }
 
 async function handleListCommand(message, client) {
     const voiceChannels = await voiceLimit.findAll({ where: { guildId: message.guildId } });
 
     if (voiceChannels.length === 0) {
-        return message.reply({ content: "Aucun salon vocal avec une limite de voix n'a été trouvé." });
+        return message.reply({ content: "Aucun salon vocal avec une limite de voix n'a été trouvé." }).then(m => {setTimeout(() => { m.delete()}, client.ms("5s"))});
     }
 
     message.reply({
@@ -123,5 +123,5 @@ async function handleListCommand(message, client) {
                 value: `Limite : ${vc.limit}`
             }))
         }]
-    });
+    }).then(m => {setTimeout(() => { m.delete()}, client.ms("5s"))});
 }
