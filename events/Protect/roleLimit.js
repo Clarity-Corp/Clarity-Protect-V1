@@ -5,6 +5,7 @@ module.exports = {
         if (oldMember.roles.cache.size < newMember.roles.cache.size) {
             const addedRole = newMember.roles.cache.find(role => !oldMember.roles.cache.has(role.id));
             let db = await roleLimit.findOne({where: {roleId: addedRole.id}});
+            if (!db) return;
             if (db.limit > 0) {
                 const memberCount = newMember.guild.members.cache.filter(member => member.roles.cache.has(addedRole.id)).size;
                 console.log(memberCount);
