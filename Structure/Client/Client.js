@@ -25,13 +25,13 @@ class Clarity extends Client {
     }
 
     // Initialisation des handlers
-    initializeHandlers() {
+    async initializeHandlers() {
         new EventHandler(this);
         new AntiCrashHandler(this);
         this.slashCommandHandler = new SlashCommandHandler(this, rest);
         new CommandHandler(this);
         this.lang = new LangHandler(this, this.langList);
-        this.initDb();
+        await this.initDb();
     }
 
     async initDb() {
@@ -43,7 +43,7 @@ class Clarity extends Client {
         try {
             await this.login(token);
             console.log(`[INFO] Connected to Discord as ${this.user.tag}`);
-            this.initializeHandlers()
+            await this.initializeHandlers()
             // Gestion des reconnections
             this.handleReconnect(token);
         } catch (err) {
