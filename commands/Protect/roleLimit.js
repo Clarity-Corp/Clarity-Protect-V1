@@ -4,6 +4,7 @@ const roleLimit = require("../../Structure/Models/Protect/RoleLimit")
 module.exports = {
     name: "rolelimit",
     category: "Antiraid",
+    start: "run",
     description: "Manage RoleLimit Module",
     cooldown: 5000,
     userPermissions: [PermissionsBitField.Flags.Administrator],

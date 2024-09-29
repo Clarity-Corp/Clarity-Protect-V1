@@ -4,6 +4,7 @@ module.exports = {
     description: "Get Bot invite link",
     category: 'Info',
     cooldown: 5000,
+    start: "execute",
     userPermissions: [],
     botPermissions: [],
     ownerOnly: false,
@@ -11,7 +12,7 @@ module.exports = {
     topGgOnly: false,
     bumpOnly: false,
     guildOwnerOnly: false,
-    run: async (client, message, args) => {
+    async execute (client, message, args) {
         let msg = await message.channel.send({
             embeds: [{
                 title: "Votre bot",

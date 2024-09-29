@@ -10,6 +10,7 @@ module.exports = {
     name: "unlock",
     description: "Unlock the channel",
     category: "Owner",
+    start: "run",
     cooldown: 5000,
     userPermissions: [],
     botPermissions: [],

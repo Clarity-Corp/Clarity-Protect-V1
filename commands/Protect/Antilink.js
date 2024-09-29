@@ -14,6 +14,7 @@ module.exports = {
     name: "antilink",
     description: "Manage antilink module",
     category: "Antiraid",
+    start: "run",
     cooldown: 5000,
     userPermissions: [PermissionsBitField.Flags.Administrator],
     botPermissions: [],

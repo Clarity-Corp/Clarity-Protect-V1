@@ -5,6 +5,7 @@ module.exports = {
     name: 'voicelimit',
     category: "Antiraid",
     description: "Manage voicelimit module",
+    start: "run",
     cooldown: 5000,
     userPermissions: [PermissionsBitField.Flags.Administrator],
     botPermissions: [],

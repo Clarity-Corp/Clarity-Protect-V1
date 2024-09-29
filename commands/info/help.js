@@ -11,6 +11,7 @@ module.exports = {
     name: 'help',
     aliases: ['h'],
     usage: '<command>',
+    start: "run",
     cooldown: 5000,
     userPermissions: [],
     botPermissions: [],

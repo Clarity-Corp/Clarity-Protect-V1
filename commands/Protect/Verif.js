@@ -15,6 +15,7 @@ module.exports = {
     name: "verif",
     description: "Manage verif module",
     category: "Antiraid",
+    start: "run",
     cooldown: 5000,
     userPermissions: [PermissionsBitField.Flags.Administrator],
     botPermissions: [],

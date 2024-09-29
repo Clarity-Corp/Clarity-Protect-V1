@@ -5,6 +5,7 @@ module.exports = {
     aliases: [],
     usage: "add/remove/list",
     category: "Owner",
+    start: "run",
     cooldown: 2000,
     userPermissions: [],
     botPermissions: [],

@@ -5,12 +5,13 @@ const {
     ButtonBuilder,
 } = require('discord.js')
 const { PermissionsBitField } = require('discord.js');
-const Prefix = require("../../Structure/Models/Guild/Prefix");
+const AntiSpam = require("../../Structure/Models/Protect/antispam");
+
 module.exports = {
-    name: "prefix",
-    description: "Manage bot prefix",
-    category: "Owner",
-    start: "execute",
+    name: "antispam",
+    description: "Manage antispam module",
+    category: "Antiraid",
+    start: "run",
     cooldown: 5000,
     userPermissions: [],
     botPermissions: [],
@@ -19,14 +20,15 @@ module.exports = {
     topGgOnly: false,
     bumpOnly: false,
     guildOwnerOnly: false,
-    async execute(client, message, args) {
+    run: async (client, message, args) => {
         let isOwner = await client.functions.isOwn(client, message.author.id)
         if (!isOwner) return message.reply({
             content: "Vous n'avez pas la permission requise pour utiliser cette commande"
         })
-        let newPrefix = args[0];
-        if (!newPrefix) return message.channel.send("Merci de fournir un nouveau préfixe.");
-        await Prefix.update({ prefix: newPrefix }, { where: { guildID: message.guild.id } });
-        return message.channel.send(`Nouveau préfixe : ${newPrefix}`);
+        let msg = await message.channel.send({content: 'Chargement du module en cours . . .'});
+        await embed(client, message, msg);
     }
 }
+async function embed(client, message, msg)  {
+    
+    }

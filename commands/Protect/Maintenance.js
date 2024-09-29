@@ -17,6 +17,7 @@ module.exports = {
     aliases: [],
     category: "Antiraid",
     cooldown: 5000,
+    start: "run",
     userPermissions: [PermissionsBitField.Flags.Administrator],
     botPermissions: [],
     ownerOnly: false,

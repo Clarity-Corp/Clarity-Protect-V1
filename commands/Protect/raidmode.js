@@ -15,6 +15,7 @@ module.exports = {
     description: "Manage raidmode module",
     aliases: ["rm", "raidmode"],
     category: "Antiraid",
+    start: "run",
     cooldown: 5000,
     userPermissions: [PermissionsBitField.Flags.Administrator],
     botPermissions: [],

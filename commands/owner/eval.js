@@ -2,6 +2,7 @@ module.exports = {
     name: "eval",
     description: "Evaluer une commande",
     category: "Owner",
+    start: "execute",
     cooldown: 2000,
     userPermissions: [],
     botPermissions: [],
@@ -11,7 +12,7 @@ module.exports = {
     bumpOnly: false,
     guildOwnerOnly: false,
     devOnly: true,
-    run: async (client, message, args) => {
+     async execute (client, message, args) {
         let isOwner = await client.functions.isOwn(client, message.author.id)
         if (!isOwner) return message.reply({
             content: "Vous n'avez pas la permission requise pour utiliser cette commande"

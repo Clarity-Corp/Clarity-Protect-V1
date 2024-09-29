@@ -4,6 +4,7 @@ module.exports = {
     name: "renew",
     aliases: ["nuke", "clone"],
     category: "Owner",
+    start: "run",
     cooldown: 5000,
     userPermissions: [PermissionsBitField.Flags.Administrator],
     botPermissions: [],

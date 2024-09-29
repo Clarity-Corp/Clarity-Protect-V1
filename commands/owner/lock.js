@@ -11,6 +11,7 @@ module.exports = {
     description: "Lock the channel",
     category: "Owner",
     cooldown: 5000,
+    start: "run",
     userPermissions: [],
     botPermissions: [],
     ownerOnly: false,

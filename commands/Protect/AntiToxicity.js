@@ -14,6 +14,7 @@ module.exports = {
     name: "antitoxicity",
     description: "Manage antitoxicity module",
     category: "Antiraid",
+    start: "run",
     cooldown: 5000,
     userPermissions: [PermissionsBitField.Flags.Administrator],
     botPermissions: [],

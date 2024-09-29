@@ -10,6 +10,7 @@ const Help = require('../../Structure/Models/Client/help');
 module.exports = {
     name: "sethelp",
     category: "Owner",
+    start: "run",
     cooldown: 5000,
     userPermissions: [],
     botPermissions: [],

@@ -11,6 +11,7 @@ const Logs = require("../../Structure/Models/logs/Logs");
 module.exports = {
     name: "logs",
     description: "Manage logs module",
+    start: "run",
     category: "Owner",
     cooldown: 5000,
     userPermissions: [PermissionsBitField.Flags.Administrator],

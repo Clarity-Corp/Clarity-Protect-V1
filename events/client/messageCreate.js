@@ -12,22 +12,24 @@ module.exports = {
 
         const [config, create] = await Prefix.findOrCreate({
             where: {
-                guildId: message.guild.id
+                guildId: message.guildId
             },
             defaults: {
                 prefix: '.'
             }
         })
 
+        if (create) console.log(`Created new prefix for guild ${message.guild.name} (${message.guildId})`);
+
         const [guildLang, createGuildLang] = await GuildLang.findOrCreate({
             where: {
-                guildId: message.guild.id
+                guildId: message.guildId
             },
             defaults: {
                 lang: "fr"
             }
         })
-        if (createGuildLang) console.log(`Created new guild lang for guild ${message.guild.id}`);
+        if (createGuildLang) console.log(`Created new guild lang for guild ${message.guild.name} (${message.guildId})`);
 
         let lang = await client.lang.get(guildLang ? guildLang.lang : "fr");
 
@@ -39,7 +41,7 @@ module.exports = {
                 color: "#3535f8"
             }
         })
-        if (createClientColor) console.log(`Created new client color for bot ${client.user.id}`);
+        if (createClientColor) console.log(`Created new client color for bot ${client.user.username} (${client.user.id})`);
 
         let [guildColor, createGuildColor] = await GuildColor.findOrCreate({
             where: {
@@ -49,7 +51,7 @@ module.exports = {
                 color: clientColor ? clientColor.color : "#3535f8"
             }
         })
-        if (createGuildColor) console.log(`Created new guild color for guild ${message.guild.id}`);
+        if (createGuildColor) console.log(`Created new guild color for guild ${message.guild.name} (${message.guildId})`);
 
         let convertColor
         if (guildColor.color.startsWith("#")) {
@@ -188,10 +190,27 @@ module.exports = {
 
         // Execute the command if all checks pass
         try {
-            cmd.run(client, message, args);
+            if (cmd.start == "run") {
+                try {
+                    await cmd.run(client, message, args);
+                } catch(e) {
+                    console.error(`Error in command ${cmd.name}:`, exports);
+                    message.reply({ content: "Une erreur est survenue lors de l'exécution de cette commande." });
+                }
+               
+            } else if (cmd.start == "execute") {
+                try {
+                    cmd.execute(client, message, args);
+                } catch(e) {
+                    console.error(`Error in command ${cmd.name}:`, e);
+                    message.reply({ content: "[ERROR]:" , e});
+                }
+            }
+           
         } catch (error) {
             console.error(error);
         }
+
 
 
 

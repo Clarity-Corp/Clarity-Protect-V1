@@ -4,6 +4,7 @@ module.exports = {
     description: "change bot profile",
     usage: "set <name/pic/banner> <value>",
     category: "Owner",
+    start: "run",
     cooldown: 2000,
     userPermissions: [],
     botPermissions: [],
