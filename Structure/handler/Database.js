@@ -1,13 +1,12 @@
 const { Sequelize, DataTypes } = require('sequelize');
 const fs = require('fs');
 const path = require('path');
-let dialect;
+
 class Database extends Sequelize {
     constructor(clarity) {
-
-        super({
-            dialect: clarity.config.database.dialect,
-            storage: clarity.config.database.Sqlite.storage,
+        const dbConfig = clarity.config.database;
+        const options = {
+            dialect: dbConfig.dialect,
             logging: false,
             define: {
                 charset: 'utf8mb4',
@@ -15,42 +14,71 @@ class Database extends Sequelize {
                 timestamps: false,
                 freezeTableName: true,
             }
-        })
+        };
+
+        switch (dbConfig.dialect) {
+            case 'sqlite':
+                options.storage = dbConfig.sqlite.storage;
+                break;
+            case 'mysql':
+            case 'mariadb':
+            case 'postgres':
+            case 'mssql':
+                options.host = dbConfig[dbConfig.dialect].host;
+                options.port = dbConfig[dbConfig.dialect].port;
+                options.username = dbConfig[dbConfig.dialect].username;
+                options.password = dbConfig[dbConfig.dialect].password;
+                options.database = dbConfig[dbConfig.dialect].database;
+                break;
+            default:
+                throw new Error(`Unsupported database dialect: ${dbConfig.dialect}`);
+        }
+
+        super(options);
 
         this.initModel(path.join(__dirname, '../Models'));
 
         this.DataTypes = DataTypes;
         console.log('[DB] Database models initialized successfully.');
-        dialect = clarity.config.database.dialect;
     }
+
     initModel(modelsPath) {
-        const modelF = this.getModelF(modelsPath);
-        modelF.forEach(file => {
-            const model = require(file)
+        const modelFiles = this.getModelFiles(modelsPath);
+        modelFiles.forEach(file => {
+            const model = require(file);
             model.initModel(this);
-        })
+        });
     }
-    getModelF(dir, fL = []) {
+
+    getModelFiles(dir, fileList = []) {
         const files = fs.readdirSync(dir);
         files.forEach((file) => {
             const filePath = path.join(dir, file);
             if (fs.statSync(filePath).isDirectory()) {
-                this.getModelF(filePath, fL);
+                this.getModelFiles(filePath, fileList);
             } else {
-                fL.push(filePath);
+                fileList.push(filePath);
             }
         });
-        return fL;
+        return fileList;
     }
+
     async authenticate(options) {
         try {
             await super.authenticate(options);
-            console.log(`[DB] Connected to ${dialect} database successfully.`);
-            await this.sync({alter: true});
+            console.log(`[DB] Connected to ${this.getDialect()} database successfully.`);
+            
+            console.log('[DB] Starting database synchronization...');
+            await this.sync({force: false});
+            console.log('[DB] Database synchronization completed.');
+          
+            console.log('[DB] Defined models:', Object.keys(this.models));
+            
         } catch (err) {
-            console.error(`[ERROR] Unable to connect to the ${this.getDialect()} database:`, err);
+            console.error(`[ERROR] Unable to connect to or sync the ${this.getDialect()} database:`, err);
             throw err;
         }
     }
 }
+
 module.exports = Database;
