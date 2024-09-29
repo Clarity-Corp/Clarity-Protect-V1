@@ -18,7 +18,8 @@ class Lock extends Model {
         },
     {
         sequelize,
-        modelName: "lock"
+        modelName: "lock",
+        tableName: 'lock'
     }
     )
     }

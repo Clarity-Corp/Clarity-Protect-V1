@@ -42,6 +42,7 @@ class Verif extends Model {
         },{
             sequelize,
             modelName: 'Verif',
+            tableName: 'Verif'
         })
     }
 }

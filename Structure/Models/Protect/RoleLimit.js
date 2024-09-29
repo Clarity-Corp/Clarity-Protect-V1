@@ -22,7 +22,8 @@ class roleLimit extends Model {
 
         }, {
             sequelize,
-            modelName: "roleLimit"
+            modelName: "roleLimit",
+            tableName: "roleLimit"
         })
     }
 }

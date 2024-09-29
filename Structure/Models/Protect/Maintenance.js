@@ -44,6 +44,7 @@ class Maintenance extends Model {
         },{
             sequelize,
             modelName: 'Maintenance',
+            tableName: 'Maintenance'
         })
     }
 }

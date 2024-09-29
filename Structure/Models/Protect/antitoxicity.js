@@ -74,6 +74,7 @@ class AntiToxicity extends Model {
         },{
             sequelize,
             modelName: 'AntiToxicity',
+            tableName: 'AntiToxicity'
         })
     }
 }

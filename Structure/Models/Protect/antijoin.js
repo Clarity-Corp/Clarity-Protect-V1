@@ -42,6 +42,7 @@ class AntiJoin extends Model {
         },{
             sequelize,
             modelName: 'AntiJoin',
+            tableName: "AntiJoin"
         })
     }
 }

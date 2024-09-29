@@ -1,6 +1,6 @@
 const { DataTypes, Model } = require('sequelize');
 
-class AntiKick extends Model {
+class Antispam extends Model {
     static initModel(sequelize) {
         super.init({
             guildId: {
@@ -27,9 +27,17 @@ class AntiKick extends Model {
                 type: DataTypes.BOOLEAN,
                 defaultValue: false
             },
-            sensibility: {
+            interval: {
                 type: DataTypes.INTEGER,
-                defaultValue: 0.8,
+                defaultValue: 2000
+            },
+            message_limit: {
+                type: DataTypes.INTEGER,
+                defaultValue: 5
+            },
+            wl_channel: {
+                type: DataTypes.STRING,
+                allowNull: true
             },
             wl_role: {
                 type: DataTypes.STRING,
@@ -52,8 +60,8 @@ class AntiKick extends Model {
                 defaultValue: false
             },
             bypass: {
-                type: DataTypes.INTEGER,
-                defaultValue: 0
+            type: DataTypes.INTEGER,
+            defaultValue: 0
             },
             bypass_status: {
                 type: DataTypes.BOOLEAN,
@@ -61,10 +69,10 @@ class AntiKick extends Model {
             }
         },{
             sequelize,
-            modelName: 'AntiKick',
-            tableName: 'AntiKick'
+            modelName: 'AntiSpam',
+            tableName: 'AntiSpam'
         })
     }
 }
 
-module.exports = AntiKick;
+module.exports = Antispam;

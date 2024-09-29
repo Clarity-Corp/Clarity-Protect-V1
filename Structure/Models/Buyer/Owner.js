@@ -12,7 +12,8 @@ class Owner extends Model {
             }
         },{
             sequelize,
-            modelName: "Owner"
+            modelName: "Owner",
+            tableName: "Owner"
             }
             )
 }

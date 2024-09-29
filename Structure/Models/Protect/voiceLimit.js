@@ -5,7 +5,7 @@ class voiceLimit extends Model {
         super.init({
             guildId: {
                 type: DataTypes.STRING,
-                allowNull: false
+                allowNull: true
             },
             channelId: {
                 type: DataTypes.STRING,
@@ -17,7 +17,8 @@ class voiceLimit extends Model {
             }
         }, {
             sequelize,
-            modelName: "voiceLimit"
+            modelName: "voiceLimit",
+            tableName: "voiceLimit"
         })
     }
 }

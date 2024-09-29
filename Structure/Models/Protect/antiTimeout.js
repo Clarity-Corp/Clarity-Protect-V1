@@ -62,6 +62,7 @@ class AntiTimeout extends Model {
         },{
             sequelize,
             modelName: 'AntiTimeout',
+            tableName: 'AntiTimeout'
         })
     }
 }

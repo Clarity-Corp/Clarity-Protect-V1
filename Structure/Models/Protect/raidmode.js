@@ -14,6 +14,7 @@ class Raidmode extends Model {
         },{
             sequelize,
             modelName: 'Raidmode',
+            tableName: 'Raidmode'
         })
     }
 }
