@@ -38,7 +38,7 @@ Clarity Protect is a advanced discord security bot for help you to protect your 
 - [Sequelize - 6](https://devdocs.io/sequelize~6/)
     
 
-![Image]([https://cdn.discordapp.com/attachments/1213872371178668033/1280462298212860024/7da3974ffadb6957b75fb6756c506068.png?ex=66d82af1&is=66d6d971&hm=0c8bd7264cebd7a893f065a2d53f14f573e5b72d3fb43c776fea5287a8c9e8bb&](https://cdn.discordapp.com/attachments/1213872371178668033/1295684924526956564/icegif-4826.gif?ex=670f8c1e&is=670e3a9e&hm=6827f6a5d9a20034c17b9cfee2bfc475eb843285f31d4b6884a4e131cc8c2609&))
+![Image](https://cdn.discordapp.com/attachments/1213872371178668033/1295684924526956564/icegif-4826.gif?ex=670f8c1e&is=670e3a9e&hm=6827f6a5d9a20034c17b9cfee2bfc475eb843285f31d4b6884a4e131cc8c2609&)
 
 
 ## 🍰 Contributing    
